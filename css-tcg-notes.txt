@@ -1,4 +1,28 @@
 ---------------------------------------------------------------------------------------------------
+UDEMY CSS - THE COMPLETE GUIDE
+---------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------
+Setting up repo in Github
+---------------------------------------------------------------------------------------------------
+
+Created a new repo at htts://github.com
+
+	- Chose not to create a Readme file
+	- I will push my existing rpeo to this remote
+
+Initialized my course directory and made my first commit:
+
+	$ git init 
+	$ git add .
+	$ git commit -m "First commit"
+
+Pushed my existing repository from the command line:
+
+	$ git remote add origin git@github.com:goranbr/udemy-css-tcg.git
+	$ git push -u origin master
+
+---------------------------------------------------------------------------------------------------
 SECTION 001 Getting Started
 ---------------------------------------------------------------------------------------------------
 
@@ -233,19 +257,117 @@ INLINE BLOCK ELEMENTS
 Lecture 043 Theory Time - Pseudo Classes & Pseudo Elements
 ---------------------------------------------------------------------------------------------------
 
-- Pseudo Classes  defines the style for a special state of an element
+PSEUDO CLASSES 
 
+	Defines the style for a special state of an element:
 	:class_name
 	
 	More: https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes
 	
 	
-- Pseudo Elements defines the style for a special part  of an element
+PSEUDO ELEMENTS:
 
+	Defines the style for a special part  of an element:
 	::element_name
 
 	More: https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements
 	
+	Example: mark up the first letter in a paragraph:
 	
+	p::first-letter {
+			color: red;
+			font-size: 20px;
+	}
+
+	Example: Add and style added content after the main content of an element:
+	
+	.main-nav__item a::after {
+			content: " (Link)";
+			color: red;
+	}
+
+---------------------------------------------------------------------------------------------------
+Lecture 044 Grouping Rules
+---------------------------------------------------------------------------------------------------
+
+You can group several rules together with a comma - if the selectors should have the same style:
+
+From:
+
+	.main-nav__item a:hover  { color: white; }
+	.main-nav__item a:active { color: white; }
+
+To:
+
+	.main-nav__item a:hover,
+	.main-nav__item a:active 
+	{
+		color: white; 
+	}
+
+	
+---------------------------------------------------------------------------------------------------
+Lecture 046 Adding & Styling a CTA-Button
+---------------------------------------------------------------------------------------------------
+
+We want to add some extra style to the "Start hosting" link.
+It's what is called a CTA link - Call to Action - a link we want to emphasize.
+
+We will add an extra class to that element:
+
+	<li class="main-nav__item main-nav__item--cta">
+	
+NB:
+
+	The authors of the course use a method of naming classes called BEM:
+	Block Element Modifyers
+	
+	Given our name above, main-nav__item--cta:
+	main-nav = is a block    (Standalone entity that is meaningful on its own)
+	__item   = is an element (A part of a block that has no standalone meaning, and is semantically tied to its block)
+	--cta"   = is a modifier (A flag on a block or element. Use them to change appearance or behavior)
+
+	More on that:
+	- https://en.bem.info/methodology/
+	- http://getbem.com/introduction/
+	- https://css-tricks.com/bem-101/
+	- https://www.smashingmagazine.com/2018/06/bem-for-beginners/
+	
+		
+	So we add "--cta" to style a modificiation to the normal "main-nav__item" elements.
+
+And add this extra css for that class:
+
+	First the inactive state:
+	.main-nav__item--cta a {
+			color: white;
+			background: #ff1b68;
+			padding: 8px 16px;
+			border-radius: 8px;
+	}
+
+	When hovering, we'll remove the border, and invert the colors of text and background:
+	.main-nav__item--cta a:hover,
+	.main-nav__item--cta a:active {
+			color: #ff1b68;
+			background: white;
+			border: none;
+	}
+
+---------------------------------------------------------------------------------------------------
+Lecture 047 Adding a Background Image to our Project
+---------------------------------------------------------------------------------------------------	
+
+We'll replace the red background with a picture for the product overview part of our webpage:
+
+	#product-overview { 
+     /*background: #ff1b68; */
+     background: url("freedom.jpg");
+     width: 100%;
+     height: 528px;
+     padding: 16px;
+
+}
+
 
 
