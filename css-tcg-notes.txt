@@ -1,0 +1,251 @@
+---------------------------------------------------------------------------------------------------
+SECTION 001 Getting Started
+---------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------
+Lecture 009 Recommended tools
+---------------------------------------------------------------------------------------------------
+
+- Visual Studio Code
+	https://code.visualstudio.com/
+
+- Chrome Browser
+	# apt-get install chromium-browser
+
+---------------------------------------------------------------------------------------------------
+SECTION 002 Diving Into the Basics of CSS	
+---------------------------------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------------------------------
+Lecture 016 Applying Additional Styles & Importing Google Fonts
+---------------------------------------------------------------------------------------------------
+
+Importing Google fonts:
+	- Google: "Google fonts"
+	- Find a font that you like and read the instructions
+
+In the html head section:
+	<link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+	
+In the css rules:
+	font-family: "Anton", sans-serif
+	
+	
+---------------------------------------------------------------------------------------------------
+Lecture 021 Theory Time - Combinators
+---------------------------------------------------------------------------------------------------
+
+Understanding Combinators
+
+Adjacent sibling (+):
+	- h2 + p { ... }
+	- Element share the same parent
+  - Second element follows immediately after first element
+	
+	Example:
+	<h2>...</h2>
+	<p>Applied here</p>
+	
+General sibling	(~):
+	- h2 ~ p { ... }
+	- Element share the same parent
+	- Second element comes somewhere after first element
+
+	Example:
+	<h2>...</h2>
+	<p>Applied here</p>
+	<p>Applied here also</p>
+	
+Child (>):
+	- div > p { ... }
+	- Second element a direct child of the first
+	
+	Example:
+		<div>Main text</div>
+		<p>Applied here</p>
+	
+Descendant (space):
+	- div  p { ... }
+	- Second element is a descendant of the first
+	
+	Example:
+		<div>Main text</div>
+		<h1>My header</h1>
+		<p>Applied here</p>
+	
+	
+---------------------------------------------------------------------------------------------------
+Lecture 022 Summarizing Properties & Selectors
+---------------------------------------------------------------------------------------------------
+
+Selectors, Properties and Values...
+
+SELECTORS
+---------------------------------------
+
+- elements   : div
+- classes    : .menu-titles
+- id's       : #main-title
+- attributes : [disabled]
+- universal  : *
+
+PROPERTIES
+---------------------------------------
+
+- background 
+- width
+- color
+- margin
+- display
+- https://developer.mozilla.org/en-US/docs/Web/CSS/Reference
+
+VALUES
+---------------------------------------
+
+Values are tightly coupled to each specific property:
+
+Pre-defined options:
+- display: block
+- overflow: auto
+
+Colors:
+- red,#fa4545, #ccc
+
+Length, sizes and numbers:
+- 30%, px, 3
+
+Functions:
+- background: url(...);
+- transform: scale(...);
+
+---------------------------------------------------------------------------------------------------
+SECTION 003 Diving Deeper into CSS
+---------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------
+Lecture 025 Module Introduction
+---------------------------------------------------------------------------------------------------
+
+In this module:
+
+- The box module
+- Height and width
+- The display property
+- "Properties worth to remember"
+- Pseudo classes & elements
+
+---------------------------------------------------------------------------------------------------
+Lecture 028 Understanding Margin Collapsing and Removing Default Margins
+---------------------------------------------------------------------------------------------------
+
+Removing Default Margins:
+	body { margin: 0px; }
+	
+Margin Collapsing:
+- Two adjacent margins are collapsed by default
+- The bigger margin defines the shared margin 
+- https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing
+
+---------------------------------------------------------------------------------------------------
+Lecture 032 Diving Into the Height & Width Properties
+---------------------------------------------------------------------------------------------------
+
+- Block level elements always take up 100%  of the - available - width by default.
+
+---------------------------------------------------------------------------------------------------
+Lecture 033 Understanding Box Sizing
+---------------------------------------------------------------------------------------------------
+
+When we change an elements width and height - what are we really changing the size of, in terms
+of its parts - content, padding, border, margin? 
+
+This behaviour can be modified by using the property: box-sizing
+
+By default: 
+
+	- box-sizing: content-box 
+	- Only the content is addressed by the value you specify
+	- The browser then adds the padding, border and the margin.
+
+Including the padding and border:
+
+	- box-sizing: border-box
+	- Here the width/height includes the padding and border
+	- Not the margin though
+		
+To use this inclusive box as the default:
+	
+		* { box-sizing: border-box; }
+		
+---------------------------------------------------------------------------------------------------
+Lecture 035 Understanding the Display Property
+---------------------------------------------------------------------------------------------------		
+
+The most common values for the display property is...
+
+	block   - the element takes up the whole with, and its own row
+	inline  - the element only takes up the minimum amount of space
+	none    - the element is hidden, takes up no space, and is removed from the DOM
+
+NB: To hide an element but keeps its space and its part of the DOM, use:
+		visibility: hidden
+
+But there is also a value called inline-block:
+	- the element does not take up 100% horizontal space
+	- you can use the box-model to modify padding, border, margin 
+	
+To create a nice horizontal top menu:
+	- We can use an unordered list (ul)
+	- We set the display property on the list items (li) to: display: inline-block
+
+	<ul class="main-nav__items">
+		<li class="main-nav__item"> <a href="packages/index.html">Packages</a> </li>
+		...
+		
+	.main-nav__item {
+			display: inline-block;
+	}
+
+BLOCK-LEVEL ELEMENTS 
+
+- Rendered as a block and hence take up all the available horizontal space. 
+- You can set margin-top and margin-bottom and two block-level elements will render in two different lines.
+- Some examples are: <div> , <section> , <article> , <nav>  but also <h1> , <h2>  etc and <p> .
+
+INLINE ELEMENTS 
+
+- Only take up the space they require to fit their content in. 
+- Two inline-elements will fit into the same line (as long as the combined content doesn't take up the entire space)
+- They also use the box-model you learned about but margin-top  and margin-bottom  have no effect on the element. 
+- Properties padding-top  and padding-bottom have a different effect. 
+- They don't push the adjacent content away but they will do so with the element border. 
+- Setting a width  or height  on an inline element also has no effect. 
+- Some example elements are: <a> , <span> , <img> 
+- More about this: https://hacks.mozilla.org/2015/03/understanding-inline-box-model/
+
+INLINE BLOCK ELEMENTS
+
+- If you want to do so or need both block-level and inline behavior, you can set display: inline-block
+
+
+---------------------------------------------------------------------------------------------------
+Lecture 043 Theory Time - Pseudo Classes & Pseudo Elements
+---------------------------------------------------------------------------------------------------
+
+- Pseudo Classes  defines the style for a special state of an element
+
+	:class_name
+	
+	More: https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes
+	
+	
+- Pseudo Elements defines the style for a special part  of an element
+
+	::element_name
+
+	More: https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements
+	
+	
+
+
