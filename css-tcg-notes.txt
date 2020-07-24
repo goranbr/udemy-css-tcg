@@ -369,5 +369,133 @@ We'll replace the red background with a picture for the product overview part of
 
 }
 
+---------------------------------------------------------------------------------------------------
+Lecture 049 Wrap Up
+---------------------------------------------------------------------------------------------------	
+
+
+Both block and inline elements conform to the box model
+- With the exception that inline elements ignore margin-top and margin bottom properties.
+- https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/The_box_model
+
+When you use width and height properties there are two ways to count
+- content-box - the sizes you speficy make up the content measurements only
+- border-box - the sizes you speficy make up content+padding+border measurements as a whole
+
+- https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing
+- https://www.w3schools.com/css/css_dimension.asp
+
+With the diplay property with can specify an element to conform to being
+- inline
+- block
+- inline-block  (element does not get a row of its own)
+- none          (elemt removed from the documnet flow and what you see, not the DOM)
+
+- https://developer.mozilla.org/en-US/docs/Web/CSS/display
+
+
+---------------------------------------------------------------------------------------------------
+SECTION 004 More on Selectors & CSS Features
+---------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------
+Lecture 52 Using Multiple CSS Classes & Combined Selectors
+---------------------------------------------------------------------------------------------------	
+
+Emphasis:
+
+- You can use multiple classes on one element
+
+- And if you do - and the css for those classes apply styling for the same property, 
+  then the normal rules for specificity and order rule applies.
+
+---------------------------------------------------------------------------------------------------
+Lecture 053 Classes or IDs?
+---------------------------------------------------------------------------------------------------	 
+
+CSS Class Selectors
+- Reusable
+- Allow you to mark and name things for styling purposes only
+- It's rately wrong to use a class
+- Should normally be your selector of choice
+
+CSS ID Selectors
+- Only used once per page
+- Also has a non-css meaning (e.g. page link): 
+
+	<a href="#intro" class="active">Intro</a>  --->  <section id="intro" class="main-section">
+	
+- Can be used if already present
+- Don't use them just to add some ccs styling
+
+---------------------------------------------------------------------------------------------------
+Lecture 054 (Not) using !important
+---------------------------------------------------------------------------------------------------
+
+Example:
+
+	div {
+		color: red !important;
+	}
+	
+What does "!important" do?
+- It overrides specificity and all other selectors
+
+SO--- RARELY IF EVER USE IT!
+
+---------------------------------------------------------------------------------------------------
+Lecture 055 Selecting the Opposite with :not()
+---------------------------------------------------------------------------------------------------
+
+The :not() pseudo class:
+
+Examples:
+
+	/* selects any el that is not a paragraph */
+	:not(p) {
+		color: blue;
+	}
+
+	/* selects any anchor that is of class "active" */
+	a:not(.active) {
+    color: blue;
+}
+	
+- Use this pseudo clas with caution	
+- Better to use "positive" selectors than "negating".
+
+---------------------------------------------------------------------------------------------------
+Lecture 056 CSS & Browser Support
+---------------------------------------------------------------------------------------------------
+
+There is a very good web page to tell you which browsers support a certain feature of css:
+- https://caniuse.com/
+
+---------------------------------------------------------------------------------------------------
+Lecture 058 Useful Resources & Links
+---------------------------------------------------------------------------------------------------
+
+
+A discussion on "classes vs IDs": 
+https://stackoverflow.com/questions/12889362/difference-between-id-and-class-in-css-and-when-to-use-it
+
+When is using !important  okay?
+https://css-tricks.com/when-using-important-is-the-right-choice/
+
+The :not()  pseudo class:
+https://developer.mozilla.org/en-US/docs/Web/CSS/:not
+
+Can I Use (a certain feature on a specific browser)?:
+https://caniuse.com/
+
+
+---------------------------------------------------------------------------------------------------
+SECTION 005 Practicing the Basics
+---------------------------------------------------------------------------------------------------    
+
+---------------------------------------------------------------------------------------------------
+Lecture 060 Adding Style to our Plans
+---------------------------------------------------------------------------------------------------
+
 
 
