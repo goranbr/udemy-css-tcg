@@ -399,7 +399,7 @@ SECTION 004 More on Selectors & CSS Features
 ---------------------------------------------------------------------------------------------------
 
 ---------------------------------------------------------------------------------------------------
-Lecture 52 Using Multiple CSS Classes & Combined Selectors
+Lecture 052 Using Multiple CSS Classes & Combined Selectors
 ---------------------------------------------------------------------------------------------------	
 
 Emphasis:
@@ -494,8 +494,269 @@ SECTION 005 Practicing the Basics
 ---------------------------------------------------------------------------------------------------    
 
 ---------------------------------------------------------------------------------------------------
-Lecture 060 Adding Style to our Plans
+Lecture 061 Working on the recommended plan
 ---------------------------------------------------------------------------------------------------
 
+We add a class for state of the recommended plan - highlighted:
+<article class="plan plan--highlighted">
 
+And a class for the part of the plan that is the header (h1) text:
+<h1 class="plan__annotation">RECOMMENDED</h1>
+
+Then we use css to give the recommended plan..
+- White text, green background, and a gray transparent drop shadow of 2px
+
+	.plan--highlighted {
+			background: #19b84c;
+			color: white;
+			box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.5);
+
+	}
+	
+---------------------------------------------------------------------------------------------------
+Lecture 062 Styling the Badge with "border-radius"
+---------------------------------------------------------------------------------------------------
+
+Finishing off the recommended header, we'll..
+- make the text green
+- its background white
+- add more padding
+- add a drop shadow
+
+	.plan__annotation {
+			background: white;
+			color: #19b84c;
+			padding: 8px;
+			box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.5);
+	}
+
+Then we want to round off the corners on the recommended header...
+- So we add -- border-radius: 8px;
+
+	.plan__annotation {
+			background: white;
+			color: #19b84c;
+			padding: 8px;
+			box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.5);
+			border-radius: 8px;
+	}
+
+---------------------------------------------------------------------------------------------------
+Lecture 063 Styling our List
+---------------------------------------------------------------------------------------------------
+
+We want to remove the bullets on our list...
+
+We add a new class to the ul elements:
+
+	<ul class="plan__features">
+	<li>1 Workspace</li>
+	<li>Unlimited Traffic</li>
+	<li>10GB Storage</li>
+	<li>Basic Support</li>
+	/ul>
+
+We also want to give each list item some vertical space:	
+	
+We could then style that thus:
+
+	.plan__features {
+			list-style: none;
+			padding: 0;
+	}	
+
+But in keeping with our BEM method, we'll add yet another class for those elements:
+
+	<ul class="plan__features">
+		<li class="plan__feature">5 Workspaces</li>
+		<li class="plan__feature">Unlimited Traffic</li>
+		<li class="plan__feature">100GB Storage</li>
+		<li class="plan__feature">Plus Support</li>
+	</ul>
+	
+And style them thus:
+
+
+
+---------------------------------------------------------------------------------------------------
+Lecture 064 Working on the Title and the Price of our Packages
+---------------------------------------------------------------------------------------------------
+
+We want to add some styling to the name and price of the plans too:
+
+In the html:
+
+	<article class="plan">
+	<h1 class="plan__title">FREE</h1>
+	<h2 class="plan__price">$0/month</h2>
+	...
+	
+And style those thus:
+
+	.plan__title {
+			color: #0e4f1f;
+	}
+
+	.plan__price {
+			color: #ddd;
+	}
+
+
+And for the recommended plan name and price...
+
+	.plan--highlighted .plan__title {
+			color: white;
+	}
+
+	.plan--highlighted .plan__price {
+			color: #0e4f1f;
+	}
+
+---------------------------------------------------------------------------------------------------
+Lecture 065 Improving our Action Button
+---------------------------------------------------------------------------------------------------
+
+Let's style the page buttons...
+
+Let's add a class for generic buttons first:
+
+	<div>
+		<button>CHOOSE PLAN</button>
+	</div>
+
+	<div>
+		<button class="button">CHOOSE PLAN</button>
+	</div>
+
+And this css:
+
+	.button {
+			background: #0e4f1f;
+			color: white;
+	}
+
+The button look a bit weird though...
+
+	- It takes some of its style from the browser defaults - which overrides inherited styling
+	- Let's make sure the font is inherited from our own css stylesheet
+	- And make the button text bold
+
+	.button {
+			background: #0e4f1f;
+			color: white;
+			font: inherit       <---- thus!
+			font-weight: bold;  <---- thus!
+	}
+
+And then we override the border (which will not bee seen until we hover over it):
+	border: 1.5px solid #0e4f1f;
+	
+And change the padding:
+	padding: 8px;
+
+So we have...
+
+	.button {
+			background: #0e4f1f;
+			color: white;
+			font: inherit;
+			border: 2px solid #0e4f1f;
+			padding: 8px;
+			border-radius: 8px;
+	}	
+	
+However, when we hove can't see it's a button you can click. Let's change that:
+	cursor: pointer;
+	
+Also when we hover we will change the styling by reversing the colors, thus:
+	
+	.button:hover, .button:active {
+			background: white;
+			color: #0e4f1f;
+
+	}	
+	
+---------------------------------------------------------------------------------------------------
+Lecture 066 Understanding Outlines
+---------------------------------------------------------------------------------------------------	
+	
+On some browsers, like chrome, we can see an outline around the button signifying the
+part of the web page that has the focus. Input fields also have this quality.
+
+On chrome we want to remove this outline for the button, which looks ugly:
+
+The outline shown by some browsers is not part of the box model, as such, but shown
+outside the border of an element, and inside the margin.
+
+We need to use the focus pseudo selector for this:
+	.button:focus {
+		outline: none;
+	}
+
+---------------------------------------------------------------------------------------------------
+Lecture 067 Presenting the Core Features to the User
+---------------------------------------------------------------------------------------------------		
+
+Here we add another sction to our html:
+
+        <section>
+            <h1>Many Good Reasons to Stick Around</h1>
+            <ul>
+                <li>
+                    <div>
+
+                    </div>
+                    <p>3,857,000 Trusting Customers</p>
+                </li>
+                <li>
+                    <div>
+
+                    </div>
+                    <p>99.999% Uptime Guarantee</p>
+                </li>
+                <li>
+                    <div>
+
+                    </div>
+                    <p>Lightning Fast CDN</p>
+                </li>
+            </ul>
+        </section>
+        
+       
+---------------------------------------------------------------------------------------------------
+Lecture 068 Styling the Headline of the Core Features Section
+---------------------------------------------------------------------------------------------------		 
+
+We'll style the header of this html like the header for our plans...
+
+The good thing here is - we can reuse the section-title class:
+
+	<h1 class="section-title">Many Good Reasons to Stick Around</h1>
+
+	Voilá! - markup reuse!
+
+Then let's style the boring list...
+
+First, let's give this sdection an id - key-features - so we have...
+
+	<section id="key-features">
+	<h1 class="section-title">Many Good Reasons to Stick Around</h1>
+	...
+	
+Let's style that:
+
+	Background for the section:
+	
+	#key-features {
+    background: #ff1b68;
+    margin-top: 80px;
+	}
+
+	Let's make the header text white:
+	
+	#key-features .section-title {
+			color: white;
+			margin: 32px;
+}
 
