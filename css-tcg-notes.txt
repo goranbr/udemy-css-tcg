@@ -738,7 +738,7 @@ The good thing here is - we can reuse the section-title class:
 
 Then let's style the boring list...
 
-First, let's give this sdection an id - key-features - so we have...
+First, let's give this seection an id - key-features - so we have...
 
 	<section id="key-features">
 	<h1 class="section-title">Many Good Reasons to Stick Around</h1>
@@ -760,3 +760,189 @@ Let's style that:
 			margin: 32px;
 }
 
+---------------------------------------------------------------------------------------------------
+Lecture 069 Preparing the Content of the Key Feature Area
+---------------------------------------------------------------------------------------------------
+
+Let's also style the list of features:
+
+We end up with this code:
+
+	<section id="key-features">
+	<h1 class="section-title">Many Good Reasons to Stick Around</h1>
+	<ul class="key-features__list">  <--new class - a part of the key-features element!
+	<li class="key-feature">         <--new class - a key-feature (singular) by definition
+	<div></div>
+	<p class="key-feature__description">3,857,000...</p>  <--new class - part of key-feature
+	</li>
+	...
+	
+And then style thus:
+
+	.key-features__list {
+			list-style: none;             - No bullet points
+			margin: 0;  
+			padding: 0;
+	}
+
+	.key-feature {
+			display: inline-block;       - Align list items horizontally
+			width: 30%;                  - Create a 3-column look
+			text-align: center;          - Center the three items
+	}
+
+	.key-feature__description {      - Style for the p elements making up key-features
+			text-align: center;
+			font-weight: bold;
+			color: white;
+			font-size: 20px;
+			vertical-align: top;         - Make thing look better in smaller displays
+	}
+
+We are then going to add an image for each feature item:
+
+We create another class ""key-feature__image" whichis a part of each list item:
+
+	<li class="key-feature">
+		<div class="key-feature__image"></div>
+		<p class="key-feature__description">3,857,000 Trusting Customers</p>
+	</li>
+	
+We then create a filled pink circle using css:
+
+	.key-feature__image {
+			background: #ffcede;          - background filling for our circle
+			width: 128px;                 - width = height for fully circular image
+			height: 128px; 
+			border: 2px solid #424242;
+			border-radius: 50%;           - styles our div elements to be circular
+	}
+
+This puts the circles in a row above the features list:
+	O        O         O
+	  xxxx     xxxx    xxxxxx
+	  
+We need to center the circles:
+	margin: auto;   
+	
+	This fills out the epty space on each side of the divs to center the circles horizontally
+	
+And we get:
+      O         O        O
+    xxxxx     xxxxx    xxxxx
+
+
+---------------------------------------------------------------------------------------------------
+Lecture 070 Adding the Footer
+---------------------------------------------------------------------------------------------------	
+
+We add a footer to our html - after the <main> part and before the body:
+
+And we add a new class:
+
+    </main>
+    <footer class="main-footer">      <---- here!
+        <nav>
+            <ul>
+                <li>
+                    <a href="#">Support</a>
+                </li>
+                <li>
+                    <a href="#">Terms of Use</a>
+                </li>
+            </ul>
+        </nav>
+    </footer>
+</body>
+
+We style it like:
+
+	.main-footer {
+			background: black;
+			padding: 32px;
+			margin-top: 48px;
+	}
+
+And then the li elements and anchors inside them:
+
+	.main-footer__links {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			text-align: center;
+	}
+
+	.main-footer__link {
+			display: inline-block;      - List them horizontally
+			margin: 0 16px;             - We can only influence side margins
+	}
+
+	.main-footer__link a {         - Style the links - normal state
+			color: white;
+			text-decoration: none;
+	}
+
+	.main-footer__link a:hover,    - Style the links - when hovering or clicking
+	.main-footer__link a:active {
+			color: #ccc;
+	}
+
+---------------------------------------------------------------------------------------------------
+Lecture 072 Adding the Packages Page
+---------------------------------------------------------------------------------------------------		
+
+We add a packages folder with an index.html file and a new css file:
+
+	packages/index.html
+	packages/packages.html
+	
+We copy the former html file...
+
+	- but remove the main part...
+	- and keep the header and footer.
+  - and change the inter-site links from:
+
+From:
+  <a href="index.html" class="main-header__brand">
+	<a href="packages/index.html">Packages</a>
+	<a href="customers/index.html">Customers</a>
+	<a href="start-hosting/index.html">Start Hosting</a>  
+ 
+To:  
+	<a href="../index.html" class="main-header__brand">
+	<a href="index.html">Packages</a>
+	<a href="../customers/index.html">Customers</a>
+	<a href="../start-hosting/index.html">Start Hosting</a>
+
+We'll also factor out css from main.css that should be shared between pages into a "shared.css" file:                    
+
+- Factor out the *, body, the header, footer and button css code.
+
+- We add the shared css to hte main page so we don't loose our shared styling, so we get:
+
+    <link rel="stylesheet"    href="shared.css">    
+    <link rel="stylesheet"    href="main.css">
+    
+- Note we put the shared above the main.css:
+  -- main.css may need to override the shared styles.
+  -- order matters!
+  
+In the 	packages/packages.html we put:
+
+    <link rel="stylesheet"    href="../shared.css">    - Shared
+    <link rel="stylesheet"    href="packages.css">     - Specific styling
+
+
+
+  
+
+    
+    
+    
+
+
+
+                    
+	
+
+	
