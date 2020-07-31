@@ -8,3 +8,7 @@ Notes from the Udemy course - CSS The Complete Guide
 - Teachers: Maximilian Schwarzmüller, Manuel Lorenz
 - Forum: ![Discord](https://discord.com/channels/622033978047725582/633585681465344001)
 
+Various Links:
+- ![CSS Standard](https://www.w3.org/TR/#tr_Cascading_Style_Sheets__CSS__Working_Group)
+- ![Browser Compliance](https://caniuse.com/)
+
