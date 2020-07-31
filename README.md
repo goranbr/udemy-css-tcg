@@ -5,11 +5,13 @@
 ![Udemy Course](shields/udemy-course.svg)
 
 Notes from the Udemy course - CSS The Complete Guide
+
+## Course
 - Link: https://www.udemy.com/course/css-the-complete-guide-incl-flexbox-grid-sass/
 - Teachers: Maximilian Schwarzmüller, Manuel Lorenz
 - Forum: ![Discord](https://discord.com/channels/622033978047725582/633585681465344001)
 
-Various Links:
+## CSS
 - ![CSS Standard](https://www.w3.org/TR/#tr_Cascading_Style_Sheets__CSS__Working_Group)
 - ![Browser Compliance](https://caniuse.com/)
 - ![CSS Lint](http://csslint.net/)
