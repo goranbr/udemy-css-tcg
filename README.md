@@ -13,6 +13,6 @@ Notes from the Udemy course - CSS The Complete Guide
 
 ## CSS
 - [CSS Standard](https://www.w3.org/TR/#tr_Cascading_Style_Sheets__CSS__Working_Group)
-- [Browser Compliance](https://caniuse.com/)
-- [CSS Lint](http://csslint.net/)
+- Browser Compliance: [https://caniuse.com/](https://caniuse.com/)
+- CSS Lint Site: [http://csslint.net](http://csslint.net/)
 
