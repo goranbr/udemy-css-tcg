@@ -3,6 +3,7 @@
 ![Web CSS](shields/web-css.svg)
 ![Web HTML](shields/web-html.svg)
 ![Udemy Course](shields/udemy-course.svg)
+![GitHub last commit](https://img.shields.io/github/last-commit/goranbr/udemy-css-tcg?label=Last%20Commit)
 
 Notes from the Udemy course - CSS The Complete Guide
 
