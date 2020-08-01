@@ -964,12 +964,399 @@ We have added some content to the main element of the packages page:
     </main>
 
     
+We start by pushing down the main contents with this css:
+
+	main {
+			margin-top: 32px;;
+	}
     
-    
+We also add a class to our section's, each of which denotes a package:
 
-
-
-                    
+	<section class="package">
 	
+And we add som e more styling:
+
+main {
+    margin-top: 32px;;
+}
+
+	.package {
+			width: 80%;                  - Plans cover 80% of the page
+			margin: 16px 0;
+			border: 4px solid green;
+			border-left: none;           - The plans sticks out from the left side
+	}
+
+We then style links like:
+
+	.package a {
+			text-decoration: none;      - No underline or such struff
+			color: inherit;
+			display: block              - Make link extend the whole width of containing div
+			padding: 32px;
+	}
+
+NB: the link (a) element contains h1 and h2 elements as well as a paragraph (p) element:
+
+	<section class="package">
+		<a href="#">
+		<h1>Our PLUS Plan</h1>
+		<h2>The most popular choice of our customers.</h2>
+		<p>Benefit from increased storage and faster support to ensure that your
+				mission-critical data and applications are always available!</p>
+		</a>
+	</section>
+
+---------------------------------------------------------------------------------------------------
+Lecture 075 Styling our Package Boxes
+---------------------------------------------------------------------------------------------------	
+
+We add some more classes to the part of the package sections:
+
+	<section class="package">
+		<a href="#">
+		<h1 class="package__title">Our PLUS Plan</h1>
+		<h2 class="package__subtitle"> The most popular choice of our customers.</h2>
+		<p  class="package__info">Benefit....</p>
+		</a>
+	</section>
+
+And style some more:
+
+	.package__subtitle {
+			color: #979797;
+	}
+
+	.package__info {
+			padding: 16px;
+			border: 1px solid #0e4f1f;
+			font-size: 20px;
+			color: #0e4f1f;
+	}
+
+Then we add id to the package sections, because they will get individual backgrounds:
+
+	<section class="package" id="plus"> ...
+	<section class="package" id="free"> ...
+	<section class="package" class="premium"> ...
+	
+And yet more styling for the various packages:
+
+	#plus {
+			background: rgba(213, 255, 220, 0.95);
+	}
+
+	#free {
+			background: rgba(234, 252, 237, 0.95);
+	}
+
+	#premium {
+			background: rgba(14, 75, 30, 0.95);
+	}
+
+	#premium .package__title {
+			color: white;
+	}
+
+	#premium .package__subtitle {
+			color:#bbb;
+	}
+
+We'll also add effects when hovering over a package section:
+
+	NB: You can apply hover effect on more than links elements!
+
+	.package:hover,
+	.package:active {
+			box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+			border-color: #ff5454;
+	}
+	
+        
+---------------------------------------------------------------------------------------------------
+Lecture 076 Adding "float" to our Package
+---------------------------------------------------------------------------------------------------
+
+We want to push the "free plan" section to ther right margin...
+
+Actually, we can not use:
+	text-align: right;
+	
+	This property only works with inline elements.
+
+If we just add this - old-school floating style - to our #free section...
+	float: right; 
+	
+	...inline element will float around it, but other block elements won't.
+	
+If really want to use this old-school property, we can use a "kludge":
+
+	1. Add a div after the floated element:
+		 <div class="clearfix"></div>
+		 
+	2. Apply CSS:  
+		.clearfix { clear: both; }
+		
+		This makes element after the div behave normally, i.e. not flow around floated elements.
+	
+REMEMBER 
+	
+NB: The property "text-align" only works with inline elements
+	
+NB: Using floating for determinining the position of block elements relative to other block elements  has largely been replaced by new techniques such as FlexBox and CSS Grid.
+
+NB: Floating is still used when controlling the flow of inline elements, such as text, around block elements, such as images.
+	
+Also, the floated "free" section now has no border on the left, hanging in the middle of the
+page so we have to correct that, and the text-alignment:
+
+	#free {
+			background: rgba(234, 252, 237, 0.95);
+			float: right;
+			border-right: none;                <-- here
+			border-left: 4px solid #0e4f1f;    <-- here
+			text-align: right;                 <-- here
+	}
+
+
+---------------------------------------------------------------------------------------------------
+Lecture 077 Fixing the Hover Effect
+---------------------------------------------------------------------------------------------------
+
+We have a small problem when we hover over the free section though:
+The left border does not border follow the red styling we gave it earlier.
+	
+The #free id selector has a higher specificity than class or pesudo selectors,
+such as our our ".package:hover" selector.
+
+	#free {
+		...
+		border-left: 4px solid #0e4f1f;
+	}
+
+	Versus:
+	
+	.package:hover,
+	.package:active {
+		box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+		border-color: #ff5454;
+	}
+
+A clean fix would be to add:
+
+	#free:hover,
+	#free:active {
+			border-color: #ff5454;
+	}
+	
+A less clean way - which should be used sparingly - if at all - would be to
+add "!important" to the previous hover style:	
+
+	.package:hover,
+	.package:active {
+			box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+			border-color: #ff5454 !important;
+	}
+
+More on floating:
+- https://developer.mozilla.org/en-US/docs/Web/CSS/float
+
+---------------------------------------------------------------------------------------------------
+Lecture 078 Adding the Final Touches
+---------------------------------------------------------------------------------------------------	
+	
+Looking at the main page again we have some elemtns that our not centered.
+
+The plans as a group are not centered on the page, so we fix that:
+
+  <section id="plans">
+  <h1 class="section-title">Select your plan!</h1>
+  <div class="plans__list">                           <--- new class!
+
+And:
+
+	.plans__list {
+			width: 80%;
+			margin: auto;            <--- Center the whole div  (a block element)
+			text-align: center;      <--- Center elements inside the div (block-inlne elements)
+	}
+            
+---------------------------------------------------------------------------------------------------
+SECTION 006 Positioning elements with CSS
+---------------------------------------------------------------------------------------------------             
+
+---------------------------------------------------------------------------------------------------
+Lecture 080 Module Introduction
+---------------------------------------------------------------------------------------------------
+          
+- Understanding the "position" property
+- How to create fixed navigation bars with "fixed" value
+- Positioning elements with z-index
+- Using "absolute" and "relative" values stand-alone and combined
+- "Sticky" positioning
+- The "stacking context"
+
+---------------------------------------------------------------------------------------------------
+Lecture 081 Why Positioning will Improve our Website
+---------------------------------------------------------------------------------------------------
+
+Just a preview of what we will do in this section...
+
+---------------------------------------------------------------------------------------------------
+Lecture 082. Understanding Positioning - The Theory
+---------------------------------------------------------------------------------------------------
+
+Given a web page which look basically like this...
+
+<html>              |    Document flow
+	<body>            |
+		<div></div      |
+		<div></div      V
+		<div></div
+	</body>
+</html>
+
+What govern the flow of how these elements are displayed?
+
+A default value for the "display" property  = block
+
+A default value for the "position" property = static
+Other values are:
+
+	-  absolute  (= relative to "viewport" = visible part of the webpage)
+	-  relative  (to some element)
+	-  fixed 
+	-  sticky
+  
+Concepts:
+
+Document flow properties: 
+	top, bottom, left, right
+
+	NB: You will only see a change if the property position is other than static.
+	
+Position property contexts:
+	viewport
+	<html>
+	<body>
+	parent element
+	
+	
+---------------------------------------------------------------------------------------------------
+Lecture 083 Working with the "fixed" Value
+---------------------------------------------------------------------------------------------------
+
+We have a small html code here to learn about positioning:
+
+	<!DOCTYPE html>
+	<html lang="en">
+			<head>
+					<meta charset="UTF-8">
+					<meta http-equiv="X-UA-Compatible" content="ie=edge">
+					<link rel="stylesheet" href="main.css">
+					<title>Position</title>
+			</head>
+			<body>
+					<div class="parent">
+							<div class="child-1">Navigation Bar</div>
+							<div class="child-2">Background Image</div>
+							<div class="child-3">Features</div>
+					</div>
+			</body>
+	</html>
+
+
+We have some css already to understand where these elements begin, end.
+
+Then, we try changing the position of the first inner div:
+
+	.parent .child-1 {
+		top: 100px;
+	}
+
+The above makes no change at all. Why?
+
+NB: Document flow properties (top, bottom, left, right) only affects elements with a property position other than "static".
+
+If we change to:
+
+	.parent .child-1 {
+		position: fixed;
+	}
+
+	Notice:
+	
+	1) The 1st div shrinks in size to only contain the actual text
+	
+	2) The 1st div is taken out of the document flow: 
+	
+			- It's is fixed in place in its original position
+			- The 2nd div moves up in the page as if the first div wasn't there.
+     
+  3) The fiv is shown above the second div.
+  
+	
+If we add:
+
+	.parent .child-1 {
+		position: fixed;
+		width: 400px;
+		margin: 0;      <--- this
+		top: 0;         <--- this
+	}
+
+	The div is moved up to the top edge of the browser viewport 
+	- BUT in its original horizontal postion.
+	
+
+And if we change that to:
+	bottom:0;
+
+	The div is moved down to the bottom edge of the browser viewport
+	- BUT in its original horizontal postion.
+	
+If we change that to:
+	left:0;
+	
+	The div is moved to the left edge of the browser viewport
+	- BUT in its original vertical postion.
+	
+Now, if we combine top and left properties...
+	top: 0;
+	left: 0;
+	
+	The div is moved to the left upper edge of the browser viewport
+
+Using this last setting and change the width to 100%...
+
+	.parent .child-1 {
+		position: fixed;
+		width: 100%;
+		margin: 0;
+		top: 0;
+		left: 0;
+	}		
+		
+We get a full width nav bar fixed at the top...
+
+BUt there's a problem - the right border of the nav bar is out of the viewport!
+
+We fix that with:
+	box-sizing: border-box;
+	
+So far we have tried out the postioning properties with box elements.
+What would happen if we made our nav bar inline?
+
+It would still work basically the same way - position-wise.
+
+
+
+
+		
+
+
+
+
+
 
 	
