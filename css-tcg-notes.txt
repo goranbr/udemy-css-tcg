@@ -1349,14 +1349,397 @@ What would happen if we made our nav bar inline?
 
 It would still work basically the same way - position-wise.
 
+---------------------------------------------------------------------------------------------------
+Lecture 084 Creating a Fixed Navigation Bar
+---------------------------------------------------------------------------------------------------
+
+IF we go back to the main web page of our project and do this:
+
+	.main-header {
+			background: #2ddf5c;
+			padding: 8px 16px;
+			width: 100%;
+			position: fixed;      <---- here
+}
+
+The nav bar is now fixed - but the contents below moves up under it.
+- Due to it being moved out of the document flow.
+
+If the nav bar was not already positioned at the top left, we might have included:
+
+	top: 0;
+	left: 0;
+
+	And we can do that anyway.
+	
+--------------------------------------------------------------------------------------------------
+Lecture 085 Using "position" to Add a Background Image
+---------------------------------------------------------------------------------------------------
+
+We'll add a div and a new class in our packages html:
+
+<body>
+    <div class="background"></div>
+    ...
+    
+A new subfolder in the shared main folder:
+	../images
+	
+And a new image in that:
+	../images/plans-background.jpg
+	
+If we then try to style the div with class "background":
+
+	.background {
+			background: url("../images/plans-background.jpg");
+			width: 100%;
+			height: 100%;
+	}
+
+	This does not work at all. So we try:
+	
+	.background {
+			background: url("../images/plans-background.jpg");
+			width: 500px;
+			height: 500px;
+	}	
+
+	This creates a div with a background, vertically above our first plan "box".	So we add:
+	position: fixed;
+	
+	Now the picture is superimposed on top of the plan divs which is below it in the document flow.
+	It has been take out of the flow itself, so hte others mov up and takes its place.
+	
+	It is superimposed above the elements coming below in the document flow, because it comes 
+	before them in the html file.
+	
+	We restore the width and height to 100%:
+	
+	background {
+			background: url("../images/plans-background.jpg");
+			width: 100%;
+			height: 100%;
+			position: fixed;
+	}
+
+	The background now actually covers all other content, but it is shown in its original size
+	and is cropped of by the viewport of the browser when we make the window smaller.
+	
+--------------------------------------------------------------------------------------------------
+Lecture 086 Understanding the Z-Index
+---------------------------------------------------------------------------------------------------	
+	
+So far we have moved elements around on the x and y axis, i.e. left-and-right and up.and-down.
+To make this background image appear below the content on the z-axis, i.e. make it have their
+normal position of a background image, we need a new propery: z-index
+
+The z-index property:
+	- Default value: auto | 0
+	- Only applies to elements with a position property != static
+	
+To place an element above another element with a default z-index:
+	- Give it a higher, positive value
+	
+To place an element below another element with a default z-index:
+	- Give it a lower, negative value
+	
+If two elements has the same value, the one that comes before the other in the hmtl file
+covers the other.
+	
+The background has the position property so let's give it:
+	z-index: -1;
+	
+--------------------------------------------------------------------------------------------------
+Lecture 088 Styling & Positioning our Badge with "absolute" and "relative"
+---------------------------------------------------------------------------------------------------		
+
+Let's add a h2 element to our PLus package to be obvious about which is recommended:
+
+	<a href="#">
+	<h1 class="package__title">Our PLUS Plan</h1>
+	<h2 class="package__badge">RECOMMENDED</h2>       <--- here!
+	<h2 class="package__subtitle"> The most popular choice of our customers.</h2>
+	<p  class="package__info">Benefit from increased storage...</p>
+	</a>
+
+We want to move it to hte right upper corner... 
+
+But we can not use "position: fixed" now,
+	we don't want to position it relative to the viewport edges.
+	we want to position it relative to the parent element, and its upper right corner
+
+If we use "position: absolut"...
+	The left, right, top, bottom properties are applied relative to a parent element with
+	a position property applied, or if none has that, the html element.
+	
+So we add this to the parent element - our plan div:
+
+	.package {
+			width: 80%;
+			margin: 16px 0;
+			border: 4px solid green;
+			border-left: none;
+			position: relative;        <--- here
+	}
+
+NB: position: relative
+
+    The element is positioned according to the normal flow of the document, and then offset relative
+    to itself based on the values of top, right, bottom, and left. The offset does not affect the 
+    position of any other elements;
+    
+And then use position: absolute for our badge inside it:
+
+	.package__badge {
+			position: absolute;        <--- here
+			top: 0;
+			left: 400px;
+			margin: 20px;
+			font-size: 12px;
+			color: white;
+			background: #ff5454;
+	}
+
+NB: position: absolute
+
+	  The element is removed from the normal document flow, and no space is created for the element in 
+	  the page layout. It is positioned relative to its closest positioned ancestor, if any; 
+	  otherwise, it is placed relative to the initial containing block.
+	  
+NB:  A "positioned element"
+
+		is an element whose computed position value is either relative, absolute, fixed, or sticky.
+		In other words, it's anything except static.
+	
+More on the position property:
+- https://developer.mozilla.org/en-US/docs/Web/CSS/position	
+ 	
+The position is not too good though...
+
+Instead of using "left: 400px" putting the badge 400px from the left side of the plan div,
+leẗ́s position it 40px from the right instead.
+
+.package__badge {
+    position: absolute;
+    top: 0;
+    right: 40px;
+    margin: 20px;
+    padding: 10px;
+    font-size: 12px;
+    color: white;
+    background: #ff5454;
+}
+
+However when we scroll our content - it covers the nav bar, so we fix that:
+
+	main-header {
+			background: #2ddf5c;
+			padding: 8px 16px;
+			width: 100%;
+			position: fixed;
+			top: 0;
+			left: 0;
+			z-index: 1;      <-- like so
+	}
+
+Actually the first package div has its upper border covered by the nva bar so I will
+move it down a bit using:
+
+	top: 40px:
+	
+--------------------------------------------------------------------------------------------------
+Lecture 089 Diving Deeper into Relative Positioning
+---------------------------------------------------------------------------------------------------	
+
+Some theory again using our demo html code:
+
+	<!DOCTYPE html>
+	<html lang="en">
+			<head>
+					<meta charset="UTF-8">
+					<meta http-equiv="X-UA-Compatible" content="ie=edge">
+					<link rel="stylesheet" href="main.css">
+					<title>Position</title>
+			</head>
+			<body>
+					<div class="parent">
+							<div class="child-1">Navigation Bar</div>
+							<div class="child-2">Background Image</div>
+							<div class="child-3">Features</div>
+					</div>
+			</body>
+	</html>
+	
+And we use the css:
+
+	.parent .child-1 {
+		position: relative;
+	}
+
+Nothing changes... But if we add:
+
+	  left: 50px;
+		top: 50px;
+		
+We move the first div 50x from the left and from the top, relative to its own original position.
+The positioning context is the element itself!
+
+We also see that it stick out from - or overflows - its container div.
+Not usually what you want, but sometimes.
+
+--------------------------------------------------------------------------------------------------
+Lecture 090 Working with "overflow" and Relative Positioning
+---------------------------------------------------------------------------------------------------	
+
+To avoid having an element that is positioned to overflow, or move outside its parent
+we can apply "overflow: hidden" to the parent:
+
+.parent {
+    background: white;
+    padding: 20px;
+    border: 5px solid black;
+    margin: 0;
+    overflow:  hidden;          <--- here
+}
+
+Although that is not usually the solution...
+
+NB: 
+
+	By default we can not apply "overflow:  hidden;" to the BODY element alone.
+	We have to aplly to both BODY + HTML elements in that case.
+	
+	
+--------------------------------------------------------------------------------------------------
+Lecture 091 Introducing "sticky" Positioning
+---------------------------------------------------------------------------------------------------	
+
+We have some new html:
+
+	<!DOCTYPE html>
+	<html lang="en">
+			<head>
+					<meta charset="UTF-8">
+					<meta http-equiv="X-UA-Compatible" content="ie=edge">
+					<link rel="stylesheet" href="main.css">
+					<title>Position</title>
+			</head>
+			<body>
+					<div class="parent">
+							<div class="country">USA</div>
+							<div class="cities">San Francisco</div>
+							<div class="cities">New York</div>
+					</div>
+					<div class="parent">
+							<div class="country">France</div>
+							<div class="cities">Nice</div>
+							<div class="cities">Paris</div>
+					</div>
+					<div class="parent">
+							<div class="country">Germany</div>
+							<div class="cities">Berlin</div>
+							<div class="cities">Munich</div>
+					</div>
+			</body>
+	</html>
+
+And inital css:
+
+	html {
+			/*background: #b3b3b3;
+			padding: 15px;
+			border: 5px solid white;
+			margin: 15px;*/
+			height: 2000px;
+	}
+
+	body {
+			/*background: #fa923f;
+			padding: 20px;
+			border: 5px solid black;*/
+			margin: 0;
+		}
+		
+	.parent {
+			background: white;
+			padding: 20px;
+			/*border: 5px solid black;*/
+			margin: 10px;
+		}
+
+	.parent .country {
+			background: #fa923f;
+			color: white;
+			padding: 10px;
+			border: 5px solid black;
+			margin: 10px;
+	}
+		
+	.parent .cities {
+			background: rgb(105, 105, 109);
+			color: white;
+			padding: 10px;
+			border: 5px solid black;
+			margin: 10px;
+	}
 
 
+If we add "position: sticky" to the country div...
 
+	.parent .country {
+		...
+		position: sticky;
+	}
+
+	Nothing changes.
+	
+And if we add "top: 20px;" we get...
+
+.parent .country {
+    background: #fa923f;
+    color: white;
+    padding: 10px;
+    border: 5px solid black;
+    margin: 10px;
+    position: sticky;
+    top: 20px;
+}
+
+Using "position: sticky" is a combination of relative and fixed.
+- If scroll the page the element sticks when it reaches the edge of the viewport minus 20 pixels.
+- If we continue to scroll it remains "sticky" until we scroll past the content of its parent element.
+
+To see this moreclearly we change the css thus:
+
+	html {
+			background: #b3b3b3;
+			padding: 15px;
+			border: 5px solid white;
+			margin: 15px;
+			height: 2000px;
+	}
+
+	body {
+			background: #fa923f;
+			padding: 20px;
+			border: 5px solid black;
+			margin: 0;
+		}
+		
+	.parent {
+			background: white;
+			padding: 20px;
+			border: 5px solid black;
+			margin: 10px;
+		}
 		
 
+However sticky may not be supported on older browsers... But who uses old browesers?
+- https://caniuse.com/#search=sticky
 
 
 
 
 
-	
+
+
