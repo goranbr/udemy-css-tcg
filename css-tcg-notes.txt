@@ -1738,8 +1738,170 @@ However sticky may not be supported on older browsers... But who uses old browes
 - https://caniuse.com/#search=sticky
 
 
+---------------------------------------------------------------------------------------------------
+Lecture 092 Understanding the Stacking Context
+---------------------------------------------------------------------------------------------------	
+
+Each fixed element constitutes it own "stacking context"
+
+So, elements inside a "position: fixed" element...
+- Can only compete with z-index between themselves, regarding which is on top of each other.
+- Can never be "better" than their parent stackin-wise
+
+	<!DOCTYPE html>
+	<html lang="en">
+			<head>
+					<meta charset="UTF-8">
+					<meta http-equiv="X-UA-Compatible" content="ie=edge">
+					<link rel="stylesheet" href="main.css">
+					<title>Position</title>
+			</head>
+			<body>
+					<div class="navigation">navigation</div>        <-- css: position: fixed;
+					<div class="headline">headline                  <-- css: position: fixed;
+					
+							<div class="image-1">image-1</div>          <-- css: z-index: 3;
+							<div class="image-2">image-2</div>          <-- css: z-index: 2;
+							<div class="image-3">image-3</div>          <-- css: z-index: 1;
+							
+					</div>
+					<div class="contact-us">contact-us</div>        <-- css: position: fixed;
+			</body>
+	</html>
 
 
+---------------------------------------------------------------------------------------------------
+Lecture 094 Useful Resources & Links
+---------------------------------------------------------------------------------------------------	
 
+Positioning theory: 
+https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Positioning
 
+More about the "position" property: 
+https://developer.mozilla.org/en-US/docs/Web/CSS/position
 
+The z-index: 
+https://developer.mozilla.org/en-US/docs/Web/CSS/z-index
+
+The Stacking Context: 
+https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context
+
+The "sticky" value and current browser support: 
+https://caniuse.com
+
+---------------------------------------------------------------------------------------------------
+SECTION 007 Understanding Background Images & Images
+---------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------
+Lecture 097. Understanding "background-size"
+---------------------------------------------------------------------------------------------------
+
+Up til now we have used the short hands:
+
+#product-overview { ...
+
+	background: url("freedom.jpg");    -- OR --
+	background: red;
+
+But we can define both a background color and an image:
+
+	background-image: url("freedom.jpg");
+	background-color: red;
+	
+In this case the image will be on top of the color.
+
+We also want to position the background picture a little better
+- We don't see more trhan a fractrion of it right now.
+
+Just to experiment, we could use:
+	background-size: 100px: 
+	
+	The background imaghe would be a repeated image of 100px, so many small ones.
+	
+If we use:
+	background-repeat: no-repeat;   - we get one smal picture only
+
+	If we use:
+	background-repeat: repeat-x;    - the picture is repeated only on the x-axis
+	background-repeat: repeat-y;    - the picture is repeated only on the y-axis
+		
+	If we increase th size:
+	background-size: 300px;         - it look slighly better - but is still way to small
+	
+	If we use 2 values
+	background-size: 300px 100px;   - The picture is forced into those XxY dimensions - ignoring aspect
+	
+	We can use percentages:
+	background-size: 50%;           - Picture covers half of the page
+	background-size: 100%;          - Picture covers whole page
+	
+	We can use 2 percentages:
+	background-size: 100% 30%;      - And again the picture is warped out of its normal aspect ratio ration.
+	
+	We can use auto + 1 percentage:
+	background-size: auto 100%;     - Picture fills height - and width according to aspect ratio (auto).
+	
+	We can also use:                - Fills the entire container:
+	background-size: cover;         -- "auto 100%" if picture has portrait aspect
+	                                -- "100% auto" if picture has lanscape aspect
+	                              
+	We can also use:                - Fills as much of the entire container it can... 
+	background-size: contain;       -- without cropping the picture
+	                                -- again, with regard to landscape/portrait
+	
+---------------------------------------------------------------------------------------------------
+Lecture 098 Working with "background-position"
+---------------------------------------------------------------------------------------------------
+
+We don't like the position of the image - we want to focus on the woman in the picture:
+
+Let's position the background image with px units:
+
+		background-position: 20px;         - Picture is moved 20px from the left of the container
+		background-position: 20px 50px;    - Picture is moved 20px from the left and 50 from the top
+
+Let's position the background image with percentages:
+
+		With 1 value: How many percent of overflow should be cropped on the left?
+		With 2 value: How many percent of overflow should be cropped on the left & at the top
+		
+		background-position: 20%;          - Overflow is cropped 20% from the left 
+		                                   - But we have no overflow due to "background-size: cover"
+		=                                   
+    background-position: 20% 50%;	     = 50% from top and bottom is the default
+		                                   
+		background-position: 0% 10%;       - Picture not cropped horizontally - we have no overflow
+                                       - but 10% from the top if necessary - and 90% from bottom
+		                                  
+		If we want to crop it equally on left/right and top/bottom we can use:
+		background-position: 50% 50%;   -- OR --
+		background-position: center;
+		
+		If don't want to crop it on left or the top:
+		background-position: left top;
+		background-position: 0% 0%;
+		
+		If we want to crop it on 10% left and 20% of the bottom:
+		background-position: left 10% bottom 20%;
+		
+		Le't use that!
+
+So now we have:
+
+	#product-overview { 
+			background-image: url("freedom.jpg");
+			background-size: cover;
+			background-position: left 10% bottom 20%;
+			background-repeat: no-repeat;
+			width: 100%;
+			height: 528px;
+			padding: 10px;
+			margin-top: 43px;
+			position: relative;
+	}
+		
+---------------------------------------------------------------------------------------------------
+Lecture 098 Working with "background-position"
+---------------------------------------------------------------------------------------------------		
+		
