@@ -1902,6 +1902,484 @@ So now we have:
 	}
 		
 ---------------------------------------------------------------------------------------------------
-Lecture 098 Working with "background-position"
+Lecture 099 The "background" Shorthand - Theory
 ---------------------------------------------------------------------------------------------------		
 		
+The background property is a shorthand propterty:
+
+Behind it there are several more specific properties:
+
+- bakground-color         
+
+- background-image        Set one - or more - background images
+- background-repeat       Set how images are repeated if too small to fill browser window
+- background-size
+- background-position     Set initial position, relative to the background position layer.
+- background-origin       Set bakground positioning area - relevant to images    
+
+- background-clip         Set whether the background in clipped by the border or goes beneath it
+- background-attachment   Set how a background image is affected by scrolling
+
+
+---------------------------------------------------------------------------------------------------
+Lecture 100 Applying "background" Origin, Clip & Attachment
+---------------------------------------------------------------------------------------------------		
+
+Let's delve deeper into some of these properties:
+
+background-origin       Set bakground positioning area - relevant to images    
+-----------------
+
+#product-overview { 
+     background-image: url("freedom.jpg");
+     background-size: cover;
+     background-position: left 10% bottom 20%;
+     background-repeat: no-repeat;
+     width: 100%;
+     height: 528px;
+     padding: 10px;
+     margin-top: 43px;
+     border: 5px dashed red;  <---- Add this!
+}
+
+When we do this:
+
+- We get the dashed border, ok!
+- On the sides we see white padding in the gaps of the dashed border
+- On the top and bottom we see the image in the border gaps
+- Because the bg image is scaled/cropped vertically and that happens after the border.
+
+Now if we specify:
+	
+	#product-overview { 
+	background-origin: border-box;
+	
+	-	Perfect, now the image goes under the border and shows in the gapsd all around!
+	- We have defined the container for our image.
+	- So "border-box" means = fill background including border and padding. 	
+
+If we specify:
+	
+	#product-overview { 
+	background-origin: content-box;
+
+	- Now the image is shown under the gaps top and bottom
+	- But on the sides the image does not even reach the border, we have white padding inside the border.
+	- So "content-box" means = fill background except border and padding. 
+
+If we specify the DEFAULT value of...
+	
+	#product-overview { 
+	background-origin: padding-box;
+	
+	- Now the image goes under the padding but not the border.
+	- So "padding-box" means = fill background including padding but not the border
+
+Let's restore this to the best value, in our case:
+	
+	#product-overview { 
+	background-origin: border-box;
+
+REMEMBER:
+
+- When excess parts of a bg image is automatically cropped due to scaling,
+  the affected side of the image - by default - extend underneath the border .
+  
+- This can be overridden by the property "background-clip"...
+
+
+background-clip         Set whether the background in clipped by the border or goes beneath it
+-----------------
+
+So, if we specify:
+
+	#product-overview { 
+	background-origin: border-box;
+	background-clip: padding-box;
+	
+ - The image is clipped inside the border - but covering any padding - on all sides
+ 
+If we specify:
+
+	#product-overview { 
+	background-origin: border-box;
+	background-clip: content-box;
+	
+ - The image is clipped inside the border - and inside any padding - on all sides.
+
+Let's restore this to the best value, in our case:
+	
+	#product-overview { 
+	background-origin: border-box;
+  background-clip: border-box;
+ 
+
+Then we have...
+
+background-attachment   Set how a background image is affected by scrolling
+---------------------
+
+This property...
+
+Specifies whether the background images are fixed with regard to the viewport ('fixed'),
+or scroll along with the element ('scroll') or its contents ('local').
+  
+- "fixed"   Image is fixed relative to the viewport.
+- "local"   Image is fixed relative to the content.
+- "scroll"  Image is fixed relative to the element itself and does not scroll with its contents.
+
+Ref: https://developer.mozilla.org/en-US/docs/Web/CSS/background-attachment
+
+We'll just set the property to the default here just to make it cleare which one is used:
+     background-attachment: local;
+     
+---------------------------------------------------------------------------------------------------
+Lecture 101 Using the "background" Shorthand on our Project
+---------------------------------------------------------------------------------------------------
+
+Up till now we have these background properties set:
+
+#product-overview { 
+     background-image: url("images/freedom.jpg");
+     background-size: cover;
+     background-position: left 10% bottom 20%;
+     background-repeat: no-repeat;
+     background-origin: border-box;
+     background-clip: padding-box;
+     background-attachment: local;
+     ...
+}
+     
+How can we make this shorter? ME: Do we really want to?
+
+We can combine these:
+
+     background-image: url("images/freedom.jpg");
+     background-size: cover;
+     background-position: left 10% bottom 20%;
+     
+Into:
+
+     background-image: url("images/freedom.jpg") left 10% bottom 20%/cover;
+     
+---------------------------------------------------------------------------------------------------
+Lecture 102 Styling images
+---------------------------------------------------------------------------------------------------
+
+We'll replace the text uHost with an image:
+
+<div>
+        <a href="index.html" class="main-header__brand">
+           uHost
+        </a>
+ </div>
+
+<div>
+        <a href="index.html" class="main-header__brand">
+           <img src="images/uhost-icon.png" alt="uHost - Your favorite hosting company"
+        </a>
+ </div>
+
+- We place a new image in the images folder: mages/uhost-icon.png.
+- We also moverd the freedom.jpg image there.
+
+Ooh, it's a bit big, though!
+
+If we in shred.ccs add:
+
+.main-header__brand {
+    color: #0e4f1f;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 22px;
+    height: 22px;      <--- here
+}
+
+This has no effect at all:
+By default - the image is not limited to the height property of an inline containing element,
+like our an a(nchor) element but will use the height an width it needs for its original size.
+
+What if we specifically style the image? 
+
+.main-header__brand  img{
+   height: 22px;
+}
+
+Yay, that works! Now it's 22px!
+
+What if set it to 100% - of the height offered by the container?
+
+.main-header__brand  img{
+   height: 100%;
+}
+
+NO, it's big again! It will use 100% of its own height!
+
+NB: This is due to the fact that the containing element is an INLINE element!
+NB: An image does not respect the  height and width properties of an inline container element.
+
+So, if we force our a element to become a block element, like:
+.main-header__brand {
+    color: #0e4f1f;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 22px;
+    height: 22px;
+    display: inline-block;
+}
+
+Then we just tell our image to assume 100% of its containers height:
+
+.main-header__brand  img{
+   height: 100%;
+}
+
+YAY, it works!
+
+---------------------------------------------------------------------------------------------------
+Lecture 103 Adding the Customers Page to our Website
+---------------------------------------------------------------------------------------------------
+
+Let's add a customers page:
+
+customers/
+	customers.css
+	index.html
+
+images/
+	customer1.jpg
+	customer2.jpg
+
+We will copy the header section from out main page index.html...
+And we will have to modify the relative paths of links and image references.
+
+We test the customers-link from the main page and it works!
+That done, we can continue to next lesson...
+
+---------------------------------------------------------------------------------------------------
+Lecture 104 Working on the Image Layout
+---------------------------------------------------------------------------------------------------
+
+For the firat restimonial we have a pseudo-property - first-of-type like:
+
+.testimonial:first-of-type {
+    margin-top: 96px;
+  }
+
+...so we can style things specifically for that element.
+
+We will create 2 classes for the different parts of the testimonial:
+
+  .testimonial:first-of-type {
+    margin-top: 96px;
+  }
+  
+  .testimonial__image-container {
+    width: 100%;
+    display: inline-block;
+  }
+
+NB: The double underscore notation following the BEM notatin style.
+
+
+We add a box-shadow for the image container:
+box-shadow: 3px 3px 5px 3px rgba(0,0,0,0.3);
+
+I can see a thin line of white space at the bottom of the image.
+
+The bottom whitespace is solved by using this on the image css:
+vertical-align: top; 
+
+Why, I don't understand.
+
+---------------------------------------------------------------------------------------------------
+Lecture 105 Understanding Linear Gradients
+---------------------------------------------------------------------------------------------------
+
+Let's try a linear gradient in stead of our main background picture:
+
+A simple gradient in red to blue, top-to-bottom:
+#product-overview { 
+     background-image: linear-gradient(red, blue);
+
+NB: The first value is the direction, and like we saw, by default it is:
+	"to bottom" = top-to-bottom
+
+Another value would be:
+	"to left bottom" = direction from upper right to left bottom
+
+We can use an angle:
+	"30deg" = look much like "to left bottom"
+	"0deg"  = "to top"
+	"180deg = "to bottom"  (default)
+
+You can use colors, rgb hexcodes, "transparent", or degrees of tranparency using rgba(a,b,c,d):
+	background-image: linear-gradient( red, blue, green, yellow, orange, #fa923f, transparent, rgba(0,0,0,0.5));
+
+You can also control when different colors start and stop:
+
+/* Color stop: A gradient from bottom to top, starting blue, turning green at 40% of its length, finishing red */
+linear-gradient(0deg, blue, green 40%, red);
+
+/* Color hint: A gradient going from the left to right, starting red, getting to the midpoint color 10% of the way
+ across the length of the gradient, taking the rest of the 90% of the length to change to blue */ 
+linear-gradient(.25turn, red, 10%, blue);
+
+/* Multi-position color stop: A gradient tilted 45 degrees, with a red bottom-left half and a blue top-right half, 
+   with a hard line where the gradient changes from red to blue */
+linear-gradient(45deg, red 0 50%, blue 50% 100%);
+
+More: https://developer.mozilla.org/en-US/docs/Web/CSS/linear-gradient
+
+---------------------------------------------------------------------------------------------------
+Lecture 106 Applying Radial Gradients
+---------------------------------------------------------------------------------------------------
+
+This creates a centered red ellipse in the middle of a blue background;
+	background: radial-gradient(red, blue)
+
+This creates a centered red circle in the middle of a blue background;
+	background: radial-gradient(circle, red, blue)
+
+This creates a red circle with its center at the top, in a blue background;
+	background: radial-gradient(circle at top, red, blue)
+
+This creates a red circle with its center at the top left, in  a blue background;
+	background: radial-gradient(circle at top left, red, blue)
+
+This creates a red circle with its center 20% from the left and 50% down from the top, in a blue background;
+	background: radial-gradient(circle at top left, red, blue)
+
+Add size value...
+
+This creates a 20px wide red circle centered 20% from the left and 50% from the top, in a blue background;
+	background-image: radial-gradient(circle 20px at top left, red, blue)
+
+You can also use the same typoe of color start and stop as for linear gradients.
+
+---------------------------------------------------------------------------------------------------
+Lecture 107 Stacking Multiple Backgrounds
+---------------------------------------------------------------------------------------------------
+
+You can use multiple images:
+
+- url()
+- linear-gradient()
+- radial-gradient,
+- rgba() 
+
+However...
+
+NB: Only ONE solid background color may be used, like red, blue etc.
+NB: The solid color will be at the bottom of images, gradients and so on.
+
+So we can do this:
+
+background: linear-gradient(to top,rgba(80,68,18,0.6) 10%, transparent), url("images/freedom.jpg") left 10% bottom 20%/cover no-repeat border-box, red;
+
+- At the top we have a semi-transparent gradient.
+- Then we have our old picture under that
+- And we have red as a backup color if the browser was unable to load he image.
+
+NB: Each gradient, image and solid color are separated by a comma (,).
+
+---------------------------------------------------------------------------------------------------
+Lecture 108 Understanding Filters
+---------------------------------------------------------------------------------------------------
+
+What is a filter?
+
+Given html: 
+	<div></div>
+
+And css - producing a brown rectangle:
+	div {
+		background: brown;
+	}
+
+We can then add a filter like blur() to blur the whole box:
+
+	div {
+		background: brown;
+		filter: blur(10px);
+	}
+
+Other filters are:
+
+	filter: blur(5px);
+	filter: brightness(0.4);
+	filter: contrast(200%);
+	filter: drop-shadow(16px 16px 20px blue);
+	filter: grayscale(50%);
+	filter: hue-rotate(90deg);
+	filter: invert(75%);
+	filter: opacity(25%);
+	filter: saturate(30%);
+	filter: sepia(60%);
+
+Let play with the packages page:
+
+.background {
+    background: url("../images/plans-background.jpg");
+    background: url("../images/plans-background.jpg") center/cover;  <--- Add this
+
+More: https://developer.mozilla.org/en-US/docs/Web/CSS/filter
+
+---------------------------------------------------------------------------------------------------
+Lecture 109 Adding & Styling SVGs - The Basics
+---------------------------------------------------------------------------------------------------
+
+Let's add some svg graphics -encloed as a resource - On our main page:
+
+<div class="key-feature__image">
+    <svg viewBox="0 0 512 512">
+        <path style="fill:#8E9AA9;" d="M168,200c-4.418,0-8,3.582-8,8v120h-17.376c-3.302-9.311-12.194-16-22.624-16  c-13.234,0-24,10.767-24,24s10.766,24,24,24c10.429,0,19.321-6.689,22.624-16H168c4.418,0,8-3.582,8-8V208  C176,203.582,172.418,200,168,200z"
+        />
+	...
+
+Add all three images... And then code the css:
+
+.key-feature__image {
+    background: #ffcede;
+    width: 128px;
+    height: 128px;
+    border: 2px solid #424242;
+    border-radius: 50%;
+    margin: auto;
+	padding: 20px;   <--- add this
+}
+
+MORE:
+
+Backgrounds    : https://developer.mozilla.org/en-US/docs/Web/CSS/background
+Styling Images : https://www.w3schools.com/css/css3_images.asp
+Filters        : https://developer.mozilla.org/en-US/docs/Web/CSS/filter
+Styling SVG    : https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/SVG_and_CSS
+
+
+---------------------------------------------------------------------------------------------------
+SECTION 008 Sized and Units
+---------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------
+Lecture 112 Module Introduction
+---------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
