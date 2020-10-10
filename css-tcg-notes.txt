@@ -2365,21 +2365,316 @@ SECTION 008 Sized and Units
 Lecture 112 Module Introduction
 ---------------------------------------------------------------------------------------------------
 
+---------------------------------------------------------------------------------------------------
+Lecture 125 Understanding the Viewport Units "vw" &"vh"
+---------------------------------------------------------------------------------------------------
+
+What are vw and vh?
+
+vw = viewport width  = the width of the area where the browser shows html content 
+vh = viewport height = the height of the area where the browser shows html content 
+
+These values are equal:
+width: 100%   = width: 100vw;
+height: 100%  = height: 100vh;
+
+vmin = the wifth or height of the browser window - whichever is smaller
+vmax = the wifth or height of the browser window - whichever is larger
+
+Let's use this for our backdrop:
+
+.backdrop {
+    position: fixed;
+    xdisplay: none;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100vw;
+    height: 100vw;
+    background: rgba(0,0,0,0.5);
+}
+
+For our background image - the woman tanning in the sun:
+
+We change:
+
+#product-overview {
+  background: linear-gradient(to top, rgba(80, 68, 18, 0.6) 10%, transparent), url("images/freedom.jpg")
+			left 10% bottom 20%/cover no-repeat border-box, #ff1b68;
+  width: 100%;
+  height: 528px;
+  margin-top: 2.75rem;
+  position: relative;
+}
+
+#product-overview {
+  background: linear-gradient(to top, rgba(80, 68, 18, 0.6) 10%, transparent),
+    url("images/freedom.jpg") left 10% bottom 70%/cover no-repeat border-box,  #ff1b68;   <-- bottom 70%
+  width: 100vw;                    <--- here
+  height: 33vh;                    <--- here
+  margin-top: 2.75rem;
+  /* border: 5px dashed red; */
+  position: relative;
+}
+
+---------------------------------------------------------------------------------------------------
+Lecture 127 Choosing the Right Unit
+---------------------------------------------------------------------------------------------------
+
+PROPERTY                                RECOMMENDED UNIT
+--------                                ----------------
+font-size (root element)                % | -
+font-size                               rem
+
+padding, margin                         rem
+border                                  px
+
+width                                   %, vw
+height                                  %, vh
+
+top                                     % (relative to containg block)
+bottom                                  % (relative to containg block)
+left                                    % (relative to containg block)
+right                                   % (relative to containg block)
+
+
+---------------------------------------------------------------------------------------------------
+Lecture 128 Using "auto" to Center
+---------------------------------------------------------------------------------------------------
+
+We have already used this but let's rehash:
+
+.plan__list {
+  width: 80%;
+  margin: auto;
+  text-align: center;
+}
+
+- By using "margin: auto;" we can center a block-level element, relative to its containing element.
+- Above we center a div containing our three plans.
+- NB: This technique can only be used for block elements with an explicit width!
+
+- Inside the div we also want the elements centered so we use "text-align: center;"
+
+---------------------------------------------------------------------------------------------------
+Lecture 129 Cleaning Up our Code
+---------------------------------------------------------------------------------------------------
+
+packages.css:
+
+.background {
+    background: url("../images/plans-background.jpg") center/cover;
+    filter: grayscale(60%);
+    width: 100%;  --> 100vw;
+    height: 100%; --> 100vh;
+    position: fixed;
+    z-index: -1;
+}
+
+---------------------------------------------------------------------------------------------------
+SECTION 009 Working with JavaScript & CSS
+---------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
+Lecture 132 Module Introduction
+---------------------------------------------------------------------------------------------------
+
+Why do we need Javascript for CSS?
+
+- Sometimes content needs to be changed AFTER a oage has loaded.
+
+We'll learn how to....
+
+- Manipulate styles via JS
+- Adding & Removing CSS classes via JS
+
+---------------------------------------------------------------------------------------------------
+Lecture 133 Adding a Modal
+---------------------------------------------------------------------------------------------------
+
+A modal is a state when the page is in a specific mode, like when you get a pop-up and the 
+background is shown grayed-out or dimmed or something like that.
+
+The background of the modal in the html will be:
+
+		<body>
+    <div class="backdrop"></div>
+
+Followed by modal pop-up:
+
+	 <div class="modal">
+      <h1 class="modal__title">Do you want to continue?</h1>
+      <div class="modal__actions">
+         <a href="start-hosting/index.html" class="modal__action">Yes!</a>
+         <button class="modal__action modal__action--negative" type="button">No!</button>
+      </div>
+   </div>
+    
+And the css in the main.css code:
+
+We will only display the modal when a certain button is clicked so the display property is set to "none" by default.
+We will control this with javascript...
+
+
+	.modal {
+		position: fixed;
+		display: none;         <--- NB: By default the modal is not diplayed.
+		z-index: 200;          <--- NB: The pop-up should be on-top of all other content!
+		top: 20%;
+		left: 30%;
+		width: 40%;
+		background: white;
+		padding: 1rem;
+		border: 1px solid #ccc;
+		box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+	}
+
+The rest of the css looks like:
+
+	.modal__title {
+		text-align: center;
+		margin: 0 0 1rem 0;
+	}
+
+	.modal__actions {
+		text-align: center;
+	}
+
+	.modal__action {
+		border: 1px solid #0e4f1f;
+		background: #0e4f1f;
+		text-decoration: none;
+		color: white;
+		font: inherit;
+		padding: 0.5rem 1rem;
+		cursor: pointer;
+	}
+
+	.modal__action:hover,
+	.modal__action:active {
+		background: #2ddf5c;
+		border-color: #2ddf5c;
+	}
+
+	.modal__action--negative {
+		background: red;
+		border-color: red;
+	}
+
+	.modal__action--negative:hover,
+	.modal__action--negative:active {
+		background: #ff5454;
+		border-color: #ff5454;
+	}    
+
+
+---------------------------------------------------------------------------------------------------
+Lecture 134. Selecting & Manipulating Styles with JavaScript
+---------------------------------------------------------------------------------------------------
+
+So we want to control the value of the display property with JS, like in this css code:
+
+.modal {
+  display: none;
+
+Why? Because it's the only way we can change the content after the page has loaded.
+
+How do we control style with JS in general?  
+
+Where do place the code?
+
+- We can put it in the header section, or at the beginning or end of the body section.
+
+- One of the better ways is to put it in the end of the body section, so all the html tree has been parsed,
+  and is available to the JS code. Contained in the <script></script> tags.
+  
+- Even better is usually to put it in a separate file. We'll put our in the main dir of our project.
+- Let's call it: shared.js
+- We then include a reference to that script at the end of the body element using: 
+
+	<script src="shared.js"></script>
+	</body>
+  
+We can try it using, this js code in shared.js:
+	alert('This works!');
+	
+Accessing the css style of our webpage is a 2-step process:
+
+	1. Get access to a so-called DOM (Document Object Nodel) element.
+
+		The DOM is the whole hiearchical tree model of our html code basically.
+		
+	2. Change the element's properties, attributes or whatever we want to do.
+
+So how do we select the backdrop div e.g. if we want to change it?
+
+- Much like you do in CSS: By element type, id, attributes, etc.
+
+First, we create a varibel to refer to the DOM element:
+	var backdrop = document.querySelector('.backdrop')
+
+	document                          = contains the whole document
+	.querySelector('SOME-CSS-SYNTAX') = choose an element choosing CSS syntax
+	
+We can debug what we just selected using:
+	console.log(backdrop;
+
+To see what it outputs in Firefox:
+	- Rightclick on the webpage and choose "Inspect element"
+	- Then choose the log tab.
+	
+It says:
+	<div class="backdrop">
+	
+If we chnage that to:
+	console.dir(backdrop;
+	
+You will see the output in DOM "object notation":
+	div.backdrop
+	
+NB: 
+- The class selector function .querySelector() always selects just ONE element. 
+- The first element that matches a class specification.
+
+ASIDE:
+----------------------------------------------------------------------------
+	If you need to get access to several elements in an array:
+	-	Use: .querySelectorAll()
+	- It returns all elements matching the class you specify.
+
+	In this later case, we get an array - NodeList - with several elements.
+-----------------------------------------------------------------------------
+
+If we look at the output of the console.dir(backdrop; call, we can find:
+
+	- The "style" property - it contains all the inline css properties of our div element.
+	- Note that: These are inline css properties
+	
+So we can code:
+
+	backdrop.style.display = 'block';
+	
+...to access the display pproperty of the div backdrop element.
+
+And if we reload, the js code will set the display property to block and the backdrop will
+cover the page right away.
+
+Bu t we want it to just display we we click a certain button, which next lesson will show.
 
 
 
 
+	
+	
 
 
 
+	
+	
+	
 
 
 
-
-
-
-
-
+  
 
 
 
