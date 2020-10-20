@@ -2658,23 +2658,582 @@ So we can code:
 And if we reload, the js code will set the display property to block and the backdrop will
 cover the page right away.
 
-Bu t we want it to just display we we click a certain button, which next lesson will show.
+But we want it to just display we we click a certain button, which next lesson will show.
 
 
+---------------------------------------------------------------------------------------------------
+Lecture 135 Adding an Event Listener
+---------------------------------------------------------------------------------------------------
 
+NOw, we don't want the modal pop-up to show until we press a button, so to do that we need
+to run the JS code when an event occurs, like when a button is clicked.
 
+We have such a button in our main index.html file:
+
+	<button class="button">CHOOSE PLAN</button>	
 	
+And in our JS code we need to select the buttons availble on the main page:
+
+	var selectPlanButtons = document.querySelectorAll('.plan button');
 	
-
-
-
+	console.dir(selectPlanButtons);
 	
+	NB: We select all button element that are inside an element with the plan class. And log that...
 	
+And in the browser ispector we can see:
+
+	NodeList(3)
+	0: <button class="button">​
+	1: <button class="button">​
+	2: <button class="button">
+	length: 3
 	
+To display a pop-up/modal with JS code when a button is clicked we need to loop through these 3 buttons
+and add an Event Listener to each button. An event listener that will execute a function the button is pressed.
+
+- This function will set the display property of our modal element to "block" instead of "none".
+- The modal wil pop-up with a question "Do you want to continue"
+- And the backdrop element will darken the background.
+
+	for (var i = 0; i < selectPlanButtons.length; i++) {
+			selectPlanButtons[i].addEventListener('click', function() {
+					modal.style.display    = 'block';
+					backdrop.style.display = 'block';
+			});
+	}
+	
+---------------------------------------------------------------------------------------------------
+Lecture 136 Adding a Side Navigation Bar
+---------------------------------------------------------------------------------------------------
+
+We are adding this to the index.html - after </header> - and before <main>:
+
+   <nav class="mobile-nav">
+        <ul class="mobile-nav__items">
+            <li class="mobile-nav__item">
+                <a href="packages/index.html">Packages</a>
+            </li>
+            <li class="mobile-nav__item">
+                <a href="customers/index.html">Customers</a>
+            </li>
+            <li class="mobile-nav__item mobile-nav__item--cta">
+                <a href="start-hosting/index.html">Start Hosting</a>
+            </li>
+        </ul>
+    </nav>	
+	
+And this to the shared.css file:
+
+	.mobile-nav {
+		display: none;
+		position: fixed;
+		z-index: 101;
+		top: 0;
+		left: 0;
+		background: white;
+		width: 80%;
+		height: 100vh;
+	}
+
+	.mobile-nav__items {
+		width: 90%;
+		height: 100%;
+		list-style: none;
+		margin: 10% auto;
+		padding: 0;
+		text-align: center;
+	}
+
+	.mobile-nav__item {
+		margin: 1rem 0;
+	}
+
+	.mobile-nav__item a {
+		font-size: 1.5rem;
+	}
 
 
+	We also need to copy some previous link styles to our new side nav code.
+	
+	Frrom:
+	
+	.main-nav__item a {
+    text-decoration: none;
+    color: #0e4f1f;
+    font-weight: bold;
+    padding: 0.2rem 0;
+	}
 
-  
+To:
+
+	.main-nav__item a,
+	.mobile-nav__item a {            <-- add
+			text-decoration: none;
+			color: #0e4f1f;
+			font-weight: bold;
+			padding: 0.2rem 0;
+	}
+
+Likewise:
+
+.main-nav__item--cta a,
+.mobile-nav__item--cta a {        <-- add
+    color: white;
+    background: #ff1b68;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+}
+
+And also:
+
+	.main-nav__item--cta a:hover,
+	.main-nav__item--cta a:active,
+	.mobile-nav__item--cta a:hover,
+	.mobile-nav__item--cta a:active {
+			color: #ff1b68;
+			background: white;
+			border: none;
+	}
+
+If we save and refreshnow we will not see any difference due to:
+
+	.mobile-nav {
+			display: none;
+	
+But if we remove that, for now...
+
+-	We will see a big side menu covering 75% pf the page from the left.
+-	But the PAckages, Customers and Start Hosting links look ok.
+	
+But restore to code below again:	
+	
+	.mobile-nav {
+			display: none;
+
+We want to show thsi menu at the click of a button, so will add this code:
+
+	<button class="toggle-button">
+    <span class="toggle-button__bar"></span>
+    <span class="toggle-button__bar"></span>
+    <span class="toggle-button__bar"></span>
+</button>
+
+Here:
+
+    <header class="main-header">
+                     <---- here
+        <div>
+            <a href="index.html" class="main-header__brand">
+                <img src="images/uhost-icon.png" alt="uHost - Your favorite hosting company">
+            </a>
+        </div>
+        
+Like so:
+
+    <header class="main-header">
+        <div>
+        
+            <button class="toggle-button">
+                <span class="toggle-button__bar"></span>
+                <span class="toggle-button__bar"></span>
+                <span class="toggle-button__bar"></span>
+            </button>
+            
+            <a href="index.html" class="main-header__brand">
+                <img src="images/uhost-icon.png" alt="uHost - Your favorite hosting company">
+            </a>
+        </div>
+
+And this css code in shared.css        
+
+	.toggle-button {
+		width: 3rem;
+		background: transparent;
+		border: none;
+		cursor: pointer;
+		padding-top: 0;
+		padding-bottom: 0;
+		vertical-align: middle;
+	}
+
+	.toggle-button:focus {
+		outline: none;
+	}
+
+	.toggle-button__bar {
+		width: 100%;
+		height: 0.2rem;
+		background: black;
+		display: block;
+		margin: 0.6rem 0;
+	}
+
+We also change:
+
+	.main-nav {
+	...
+	width: calc(100% - 122px);
+    
+And:
+
+.main-header__brand {
+	...
+	vertical-align: middle;  <--- this
+}
+
+---------------------------------------------------------------------------------------------------
+Lecture 137 Opening and Closing the Hamburger Menu
+---------------------------------------------------------------------------------------------------
+
+Our index.hmtl:
+
+    <header class="main-header">
+        <div>
+            <button class="toggle-button">
+                <span class="toggle-button__bar"></span>
+                <span class="toggle-button__bar"></span>
+                <span class="toggle-button__bar"></span>
+            </button>
+            <a href="index.html" class="main-header__brand">
+                <img src="images/uhost-icon.png" alt="uHost - Your favorite hosting company">
+            </a>
+        </div>
+        
+        
+Our shared.css now looks like:
+
+	//  Pop -up stuff
+	var backdrop          = document.querySelector('.backdrop');
+	var modal             = document.querySelector('.modal');
+	var modalNoButton     = document.querySelector('.modal__action--negative');
+	var selectPlanButtons = document.querySelectorAll('.plan button');
+
+	// Side menu
+	var toggleButton = document.querySelector('.toggle-button');
+	var mobileNav    = document.querySelector('.mobile-nav');
+
+
+	//console.dir(backdrop);
+	//backdrop.style.display = 'block';
+
+	console.dir(selectPlanButtons);
+
+	// Add event listener to each plan button 
+	// When button is clicked, show pop-up and backdrop (dimming the background)
+
+	for (var i = 0; i < selectPlanButtons.length; i++) {
+			selectPlanButtons[i].addEventListener('click', function() {
+					modal.style.display    = 'block';
+					backdrop.style.display = 'block';
+			});
+	}
+
+	// When side menu button clicked - display menu close pop-up
+	backdrop.addEventListener("click", function() {
+			mobileNav.style.display = 'none';
+			closeModal();
+	});
+
+	// If "No" is clicked in dialogue - just close pop-up
+	modalNoButton.addEventListener("click", closeModal);
+
+	// When closing pop-up also make backdrop disappear
+	function closeModal() {
+			backdrop.style.display = "none";
+			modal.style.display    = "none";
+	}
+
+	// Add event listener to side menu button
+	// When button is clicked, show side menu
+
+	toggleButton.addEventListener('click', function() {
+			mobileNav.style.display = 'block';
+			backdrop.style.display  = 'block';
+	});
+
+---------------------------------------------------------------------------------------------------
+Lecture 138 Manipulating Element Classes
+---------------------------------------------------------------------------------------------------
+
+Instead of changing the style of an element that has a certain class:
+
+for (var i = 0; i < selectPlanButtons.length; i++) {
+    selectPlanButtons[i].addEventListener('click', function() {
+        modal.style.display    = 'block';   <--- here
+        backdrop.style.display = 'block';   <--- here
+    });
+}
+
+we can add a class called "open" that makes elements not be displayed...1
+
+	.open {
+			display: block;
+	}
+
+...and then change the class/classes attached to the element:
+
+	Here we add the class "open" to the modal and backdrop element:
+  //modal.style.display    = 'block';   <--- here
+  //backdrop.style.display = 'block';   <--- here
+	modal.classList.add('open');
+	backdrop.classList.add('open');
+	
+Right away this deos not work because the display property is overwritten in the main.ccs 
+which is included after the shared.css. The last one wins:
+
+   <link rel="stylesheet"    href="shared.css">    
+   <link rel="stylesheet"    href="main.css">
+
+We can solve that with an old friend:
+
+	.open {
+			display: block !important;   = Don't let this be overridden!
+	}
+	
+But we also need to do:
+
+	function closeModal() {
+			//backdrop.style.display = "none";
+			//modal.style.display    = "none";
+			modal.classList.remove('open');
+			backdrop.classList.remove('open');
+	}
+
+	backdrop.addEventListener("click", function() {
+			//mobileNav.style.display = 'none';
+			mobileNav.classList.remove('open');
+			closeModal();
+	});
+
+	toggleButton.addEventListener('click', function() {
+			//mobileNav.style.display = 'block';
+			//backdrop.style.display  = 'block';
+			mobileNav.classList.add('open');
+			backdrop.classList.add('open');
+	});
+
+---------------------------------------------------------------------------------------------------
+Lecture 139 Understanding Property Notations
+---------------------------------------------------------------------------------------------------
+
+CSS have different notations for html element properties:
+
+	CSS notation: background-image
+	JS  notation: backgroundImage
+
+Let's see how this is used in JS code like the one below:
+
+	JS notation:
+	console.dir(backdrop.style.backgroundImage);
+	
+	CSS notation (Came Case notation):
+	console.dir(backdrop.style['background-image');
+	
+---------------------------------------------------------------------------------------------------
+Lecture 140 Cleaning Up our Code
+---------------------------------------------------------------------------------------------------	
+	
+Copyt from (main) index.html to packages/index.html:
+
+	After </header> - before <main>:
+	
+    <nav class="mobile-nav">
+        <ul class="mobile-nav__items">
+            <li class="mobile-nav__item">
+                <a href="packages/index.html">Packages</a>
+            </li>
+            <li class="mobile-nav__item">
+                <a href="customers/index.html">Customers</a>
+            </li>
+            <li class="mobile-nav__item mobile-nav__item--cta">
+                <a href="start-hosting/index.html">Start Hosting</a>
+            </li>
+        </ul>
+    </nav>
+
+    <nav class="mobile-nav">
+        <ul class="mobile-nav__items">
+            <li class="mobile-nav__item">
+                <a href="index.html">Packages</a>   <--- change
+            </li>
+            <li class="mobile-nav__item">
+                <a href="../customers/index.html">Customers</a>  <--- change
+            </li>
+            <li class="mobile-nav__item mobile-nav__item--cta">
+                <a href="../start-hosting/index.html">Start Hosting</a> <--- change
+            </li>
+        </ul>
+    </nav>
+
+copy again ... to customers/index.html - with adapted link paths:
+
+    <nav class="mobile-nav">
+        <ul class="mobile-nav__items">
+            <li class="mobile-nav__item">
+                <a href="../packages/index.html">Packages</a>   <--- change
+            </li>
+            <li class="mobile-nav__item">
+                <a href="index.html">Customers</a>  <--- change
+            </li>
+            <li class="mobile-nav__item mobile-nav__item--cta">
+                <a href="../start-hosting/index.html">Start Hosting</a> <--- change
+            </li>
+        </ul>
+    </nav>
+    
+    
+Copy our side menu toggle button:
+
+            <button class="toggle-button">
+                <span class="toggle-button__bar"></span>
+                <span class="toggle-button__bar"></span>
+                <span class="toggle-button__bar"></span>
+            </button>
+            
+To...  Packages/index.html + Customers/index.hmtl - After:
+
+	    <header class="main-header">
+        <div>
+
+BUt clicking on the side menu button doesnt work! Why?
+The Packages/index.html + Customers/index.hmtl are missing the shared.js file!
+
+		</footer>
+    <script src="shared.js"></script>   <-- must be imported in all html files!
+	</body>
+
+Let's fix that - put the import code with adapted import path in the two files:
+
+	<script src="../shared.js"></script>
+	
+We also have to fix the html code for the favicon:
+
+	<link rel="shortcut icon" href="favicon.png">
+	<link rel="shortcut icon" href="../favicon.png">
+
+
+After that we strill get an error:
+
+	Uncaught typeError: Cannot read propery "addEventListener" of null at shared.js:27
+	
+We refer to elements in the shared.js file that only exist in the main index.html:
+
+	This code only runs if we have plan selectPLanbuttons:
+
+	for (var i = 0; i < selectPlanButtons.length; i++) {
+			selectPlanButtons[i].addEventListener('click', function() {
+					modal.classList.add('open');
+					backdrop.classList.add('open');
+					...
+	
+	However, this code tries to run no matter what:
+	// If "No" is clicked in dialogue - just close pop-up
+	modalNoButton.addEventListener("click", closeModal);
+
+	We need to wrap that inside an if statement:
+	
+	if (modalNoButton) {
+		modalNoButton.addEventListener("click", closeModal);
+	}
+
+	THis code also needs to be changed from:
+	
+	function closeModal() {
+    modal.classList.remove('open');
+    backdrop.classList.remove('open');
+	}
+
+	To:
+	
+	function closeModal() {
+		if (modal) {
+			modal.classList.remove('open');
+		}
+    backdrop.classList.remove('open');
+	}
+        
+---------------------------------------------------------------------------------------------------
+Lecture 141 Wrap Up
+---------------------------------------------------------------------------------------------------	           
+
+We learnt to:
+
+Accessing Style Properties:
+
+- Access CSS styles on DOM element via the style property.
+- Access via Camelcase notation (backgroundImage), or using strings ('background-image')
+
+Add & Remove CSS classes:
+
+- Use className or ClassList
+- classList is easier and more flexible
+
+- JavaScript Basics: https://academind.com/learn/javascript
+- JavaScript CSS Styles: https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/style
+- classList : https://developer.mozilla.org/en-US/docs/Web/API/Element/classList
+
+---------------------------------------------------------------------------------------------------
+SECTION 010 Making our Website More Responsive
+---------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------
+Lecture 143 Module Introduction
+---------------------------------------------------------------------------------------------------	           
+
+Responsive design is making webpages that looks good on different kinds of devices:
+
+	- Desktops
+	- Mobile devices
+
+We've learn about:
+
+- Hardware vs software pixels
+- The viewport <meta> tag in HTML
+- Media queries with @media
+
+---------------------------------------------------------------------------------------------------
+Lecture 144. Why our Project Should Become Responsive
+---------------------------------------------------------------------------------------------------	
+
+To look good on all devices...
+
+---------------------------------------------------------------------------------------------------
+Lecture 145. Understanding Hardware Pixels vs. Software Pixels
+---------------------------------------------------------------------------------------------------	
+
+In Chrome's inspector you can click on the "device" button and se what our codes would look like
+on various devices.
+
+Our webpage looks very small because the pixel density on a mobile device usually are much higher
+than on a desktop monitor.
+
+Some figures and tables to show this is available at:
+	https://mydevice.io
+	
+To make our webpage responsive to this fact we have to use the viewport metatag.	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+Hardware vs software pixels:
+
+---------------------------------------------------------------------------------------------------
+Lecture 146. Comparing the Viewport Metatag (HTML) and Media Queries (CSS)
+---------------------------------------------------------------------------------------------------	
+
+What tools do we have:
+
+Viewport                                     Media queries
+-----------------------------------------    ----------------------------------------------
+* Adjust site to device device viewport      * Change design depending on size
+* No design changes                          * Design changes defined by us
+
+---------------------------------------------------------------------------------------------------
+Lecture 147 Understanding the "viewport" Metatag
+---------------------------------------------------------------------------------------------------	
+
+Examples of how we can control zxooming:
+
+<meta name="viewport" content="width=device-width, initial-scale=1.5, 
+	user-scalable=yes, maximum-scale=2.0, minimum-scale=1.2">
 
 
 
