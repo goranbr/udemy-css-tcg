@@ -3235,5 +3235,204 @@ Examples of how we can control zxooming:
 <meta name="viewport" content="width=device-width, initial-scale=1.5, 
 	user-scalable=yes, maximum-scale=2.0, minimum-scale=1.2">
 
+---------------------------------------------------------------------------------------------------
+Lecture 148 Designing Websites "Mobile First"
+---------------------------------------------------------------------------------------------------
+
+Not me! I have a real computer!
+
+---------------------------------------------------------------------------------------------------
+Lecture 149 Adding our First Media Queries
+---------------------------------------------------------------------------------------------------
+
+First make sure we have this code in all our htm files:
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+We will try to make a website that looks good on a cellphone, tablet or a desktop device.
+
+- Any viewport <= 640 pixels we will consider a mobile device.
+
+In main html file - add this code for text "get the freedom...:
+
+#product-overview h1 {
+	...
+  font-size: 1.6rem;
+
+NOTE:
+
+The text get bigger, depending on the font size of the base element, by default specified by the
+browser default font setting.
+
+BUT - the text does not change size depending on the viewport size (by changing size of browser window).
+That's where media queries come into play!
+
+In the main.css now add:
+
+	/* If our viewport is at least 40rem - then apply this css code */
+	@media (min-width: 40rem) {
+		#product-overview h1 {
+			font-size: 3rem;
+		}
+	}
+
+When we make the viewport (browser window) 640px or wider we get a larger font for "Get the freedom..."!
+Great!
+
+We can add several css changes when the mediaquery matches:
+
+	/* For tablets perhaps */
+	@media (min-width: 40rem) {
+
+		#product-overview {     <--- Make image proportionally larger for desktop sizes
+			height: 40vh;
+		}
+
+		#product-overview h1 {
+			font-size: 3rem;
+		}
+	}
+
+And change the positioning (and clipping) of the image:
+
+  #product-overview {
+    height: 40vh;
+    background-position: 50% 25%;   <--- here
+  }
+
+---------------------------------------------------------------------------------------------------
+Lecture 150 Things to Keep in Mind when Working with Media Queries
+---------------------------------------------------------------------------------------------------
+
+A media query is basically an if statement + css to apply if it is true:
+
+	@media (CONDITION) {
+		CSS CODE TO APPLY
+	}
+
+The modern way to design webpages is to put "Mobile First" (which sucks!):
+
+- This means the major part of the CSS we have written will be adapted so that it is the "default" code.
+- The media queries will adapt the css when we have desktop size viewports.
+
+
+Of course one could do it the other way around: "Desktop-First".
+
+	In that case we would change
+
+	...this code:
+	@media (min-width: 40rem) {
+	
+	...into this code	
+	@media (max-width: 40rem) {		
+	
+And then define what will apply for smaller virewports foun don mobile devices
+
+
+We can add multiple media queries of course - like code for desktops:
+
+	/* If our viewport is at least 50rem - Apply this css code */
+	@media (min-width: 40rem) {
+
+		#product-overview {
+			height: 50vh;
+			background-position: 50% 25%;
+		}
+
+		#product-overview h1 {
+			font-size: 5rem;
+		}
+	}
+
+Now we have 3 different kinds of css code...
+
+- The default css code (viewport <  40rem) - mobile phones
+- The first mediaquery (viewport >= 40rem) - tablets
+- The first mediaquery (viewport >= 50rem) - desktops
+
+Note that the order of the mediaqueries is important!
+- The last one is applied!
+
+---------------------------------------------------------------------------------------------------
+Lecture 151 Finding the Right Breaking Points
+---------------------------------------------------------------------------------------------------
+
+You can get some guidance at https://mydevice.io
+
+	- Look the column for CSS width for mobile phones for the first breaking point
+	- Look the column for CSS width for tablets for the first breaking point
+
+Best placement:
+- the best way to place the media queries	is at the End of the CSS file.
+- for the purpose of this course, though, we will keep them close to the related css code.
+
+---------------------------------------------------------------------------------------------------
+Lecture 152. Creating the Mobile First Design for our Plans
+---------------------------------------------------------------------------------------------------
+
+We wil change this backlground image positioning  from:
+
+	#product-overview {
+		background: linear-gradient(to top, rgba(80, 68, 18, 0.6) 10%, transparent),
+			url("images/freedom.jpg") left 10% bottom 70%/cover no-repeat border-box,
+			#ff1b68;
+
+To:
+
+	#product-overview {
+		background: linear-gradient(to top, rgba(80, 68, 18, 0.6) 10%, transparent),
+			url("images/freedom.jpg") center/cover no-repeat border-box,
+			#ff1b68;
+    
+To make the girls head not be cut off at the top.	
+
+We want to make the plans stack on top of each other for smaller devices, not be placed
+side-by-side. And remove:
+
+	.plan {
+		background: #d5ffdc;
+		text-align: center;
+		padding: 1rem;
+		margin: 0.5rem;
+		display: inline-block;    <--- inline-block to block! (or remove it)
+		width: 100%;              <--- 30%          to 100%  
+		vertical-align: middle;
+	}
+
+They now stack up on top of each other and occupy most of thw width for our normal- mobile first code. 
+
+The make the plans occupy the full width we need to:
+
+	.plan__list {
+		width: 80%;      -->  100%
+		margin: auto;    --> remove
+		text-align: center;
+	}
+
+Actually we will remove this for now:
+
+	/* .plan__list {
+		width: 100%;
+		text-align: center;
+	}  */
+
+Also we will comment out this box-shadow (Ctrl-Shift-A):
+
+	.plan--highlighted {
+		background: #19b84c;
+		color: white;
+		/* box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.5); */
+	}
+
+---------------------------------------------------------------------------------------------------
+Lecture 153 Making the Plans Responsive
+---------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
 
 
