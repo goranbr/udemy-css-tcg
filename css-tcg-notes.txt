@@ -9,7 +9,7 @@ Setting up repo in Github
 Created a new repo at htts://github.com
 
 	- Chose not to create a Readme file
-	- I will push my existing rpeo to this remote
+	- I will push my existing repo to this remote
 
 Initialized my course directory and made my first commit:
 
@@ -3428,11 +3428,302 @@ Also we will comment out this box-shadow (Ctrl-Shift-A):
 Lecture 153 Making the Plans Responsive
 ---------------------------------------------------------------------------------------------------
 
+Up til now nothing changes because the width of the plans are by default 100%;
+
+We fix that now...
+
+	@media (min-width: 40rem) {
+		.plan {
+			display: inline-block; 
+			width: 30%;
+		}
+	}
+
+And the plan align horizontally again side-by-side. We also add "vertical-align: middle;"
+
+We also need to align the plans horizontally, reusing our earlier code:
+
+	/* .plan__list {
+		width: 100%;
+		text-align: center;
+	}
+	*/
+
+So it gets like :
+	
+	@media (min-width: 40rem) {
+
+	.plan__list {
+		width: 100%;
+		text-align: center;
+		}
+	
+		.plan {
+			display: inline-block; 
+			width: 30%;
+			vertical-align: middle;
+		}
+	}
+
+We'll also add back the box shadow for the highlighted...
+And the min, and max width of the plans:
+
+	@media (min-width: 40rem) {
+
+	.plans__list {
+			width: 100%;
+			text-align: center;
+	}
+	
+		.plan {
+			display: inline-block; 
+			width: 30%;
+			vertical-align: middle;
+			min-width: 13rem;            <-- here
+			max-width:                   <-- here
+		}
+
+		.plan--highlighted {
+			box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.5);     <-- here
+		}
+	}
+
+---------------------------------------------------------------------------------------------------
+Lecture 154. Your Challenge - Make Keyfeatures Resposive
+---------------------------------------------------------------------------------------------------
+
+We start by making the key features block elements:
+
+	.key-feature {
+		/*display: inline-block; */
+		width: 30%;
+		vertical-align: top;
+	}
+
+That works well for the mobile version.
+
+Then we restore the desktop look for bigger viewports:
+
+	@media (min-wifth: 40rem) {
+		.key-feature {
+			display: inline-block;
+			width: 30%; 
+			vertical-align: top;
+			list-style: none;
+		}
+	}
+
+---------------------------------------------------------------------------------------------------
+Lecture 155 Working with Logical Operators
+---------------------------------------------------------------------------------------------------
+
+We can combine multiple conditions in our media queries with operator "and", like...
+
+	@media (min-width: 40rem)  and (min-height: 60rem) {
+
+		#product-overview {
+			height: 40vh;
+			background-position: 50% 25%;
+		}
+
+		#product-overview h1 {
+			font-size: 3rem;
+		}
+	}
+
+...only do somethng if the viewport height is of a certain size.
+
+Or if the orientation is portrait or landscape:
+
+	@media (min-width: 40rem) and (orientation: portrait) {
+
+		#product-overview {
+			height: 40vh;
+			background-position: 50% 25%;
+		}
+
+		#product-overview h1 {
+			font-size: 3rem;
+		}
+	}
+
+	@media (min-width: 40rem) and (orientation: landscape) {
+
+	.plans__list {
+			width: 100%;
+			text-align: center;
+	}
+	
+		.plan {
+			display: inline-block; 
+			width: 30%;
+			vertical-align: middle;
+			min-width: 13rem;
+			max-width: 25rem;
+		}
+
+		.plan--highlighted {
+			box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.5); 
+		}
+	}
+
+We can combine multiple conditions in our media queries with a logical or-operator ",":
+
+	@media (min-width: 40rem), (orientation: landscape) {... }
+
+But we will only use this combination:
+
+	@media (min-width: 40rem) and (min-height: 60rem) {
+
+		#product-overview {
+			height: 40vh;
+			background-position: 50% 25%;
+		}
+
+		#product-overview h1 {
+			font-size: 3rem;
+		}
+	}
+	
+---------------------------------------------------------------------------------------------------
+Lecture 156 Improving the customers page
+---------------------------------------------------------------------------------------------------
+
+- The main page now looks ok.
+- The packages page also looks good by default
+- On the customers page the texts are squeezed really badly when shown on small viewports.
+
+In customer.html a testimonial looks like:
+
+   <div class="testimonial" id="customer-1">
+       <div class="testimonial__image-container">
+           <img src="../images/customer-1.jpg" alt="Mike Statham - Customer" class="testimonial__image">
+       </div>
+       <div class="testimonial__info">
+           <h1 class="testimonial__name">Mike Statham</h1>
+           <h2 class="testimonial__subtitle">Founder of
+               <a href="tech-analysis.com">tech-analysis.com</a>
+           </h2>
+           <p class="testimonial__text">uHost helped me realize my project with a highly constrained budget in like no time.</p>
+       </div>
+   </div>
+            
+Let's do:
+
+  .testimonial__image-container {
+    width: 65%;
+    max-width: 580px;
+    min-width: 200px;
+  /* display: inline-block; */            <-- this
+  /* vertical-align: middle; */           <-- this
+    box-shadow: 3px 3px 5px 3px rgba(0,0,0,0.3);
+  }
+
+  .testimonial__image {
+    width: 100%;
+    vertical-align: bottom;
+  }
+
+  .testimonial__info {
+    text-align: right;
+    padding: 0.9rem;
+  /*   display: inline-block; */       <-- this
+  /*  vertical-align: middle; */ 
+  /*  width: 30%;             */ 
+  }
+  
+  .testimonial {  
+    font-size: 1.2rem;
+    margin: 48px 0;
+    margin: 3rem 0;
+  }
+  
+  /* .testimonial__list {
+      width: 80%;
+      margin: auto;
+	} */
+	
+We need to get back the desktop look...
+
+@media (min-width: 40rem) {
+
+    .testimonial {
+       margin: 3rem 0; 
+    }
+
+    .testimonial__image-container {
+       display: inline-block; 
+      vertical-align: middle;
+      width: 66%;               <--- add
+    }
+    
+  .testimonial__info {
+    display: inline-block;
+    vertical-align: middle;
+    width: 30%;
+  }    
+}
+
+Let's change the default - mobile style:
+
+ .testimonial__image {
+    width: 100%;
+/*  width: 65%; */
+    vertical-align: bottom;
+  }
+  
+And this too...
+
+  .testimonial__image-container {
+    width: 100%;
+    max-width: 580px;
+    /* max-width: 580px; */
+    max-width: 40rem;
+    box-shadow: 3px 3px 5px 3px rgba(0,0,0,0.3);
+  }    
+    
+---------------------------------------------------------------------------------------------------
+Lecture 157 Improving the Packages Page
+---------------------------------------------------------------------------------------------------
+
+In the packages.css - at the bottom:
 
 
+@media (min-width: 40rem) {
 
+    .main {
+      margin: 3rem auto; 
+      max-width: 1500px;
+    }
+}
 
+So the main element are centered when vp wider thsn 40rem.
+Bu the packages lack some left and right borders...
 
+---------------------------------------------------------------------------------------------------
+Lecture 158 Cleaning Up the Navigation Bar
+---------------------------------------------------------------------------------------------------
 
+Unrelated change:
 
+IN main.css - Change:
+	@media (min-width: 40rem) and (min-height: 60rem) {
 
+To:
+	@media (min-width: 40rem) and (min-height: 40rem) {
+
+	
+	
+.main-header__brand {
+    color: #0e4f1f;
+    text-decoration: none;
+    font-weight: bold;
+  /*   font-size: 1.5rem; */  <-- fix
+    height: 2.5rem;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.main-header__brand img {
+    height: 100%;              <-- fix
+}
