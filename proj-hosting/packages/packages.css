@@ -1,5 +1,5 @@
 main {
-    margin-top: 2rem;
+      padding-top: 3.5rem;
 }
 
 .background {
@@ -74,7 +74,7 @@ main {
 
 #free:hover,
 #free:active {
-        border-color: #ff5454;
+    border-color: #ff5454;
 }
 
 #premium {
@@ -92,8 +92,9 @@ main {
 @media (min-width: 40rem) {
 
     main {
-      margin: 3rem auto; 
       max-width: 1500px;
+      margin-left: auto;
+      margin-right: auto;
     }
 }
 

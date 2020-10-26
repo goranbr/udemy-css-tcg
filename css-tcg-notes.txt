@@ -2471,6 +2471,14 @@ packages.css:
     z-index: -1;
 }
 
+
+
+
+
+
+
+
+
 ---------------------------------------------------------------------------------------------------
 SECTION 009 Working with JavaScript & CSS
 ---------------------------------------------------------------------------------------------------
@@ -3697,7 +3705,7 @@ In the packages.css - at the bottom:
     }
 }
 
-So the main element are centered when vp wider thsn 40rem.
+So the main element are centered when vp wider than 40rem.
 Bu the packages lack some left and right borders...
 
 ---------------------------------------------------------------------------------------------------
@@ -3727,3 +3735,332 @@ To:
 .main-header__brand img {
     height: 100%;              <-- fix
 }
+
+---------------------------------------------------------------------------------------------------
+Lecture 159 Positioning our Footer Correctly
+---------------------------------------------------------------------------------------------------
+
+Our footer element is hanging loose, at least in the cutomer and packages pages.
+
+- We want both our header and footer to be fixed
+- We want the main area to take up the rest of vertical space.
+
+We need to calculate the relative vertical sizes of these element
+
+We already have such a calculation for the main navigation area:
+
+	.main-nav {
+			display: inline-block;
+			text-align: right;
+			width: calc(100% - 122px);   <--- here
+			vertical-align: middle;
+	}
+
+Let's begin with the main area calculation instead: 
+
+main {
+    /* Main area height 100% of viewport height - header height - footer height */
+    min-height: calc(100vh - 3.5rem - 8rem);
+    margin-top: 3.5rem;
+}
+
+Dive Deeper into Selected Topics
+
+- Absolute lengths on W3.org: https://www.w3.org/TR/css-values-3/#absolute-lengths
+- More about device sizes: https://bjango.com/articles/min-device-pixel-ratio/
+- Media queries theory: https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries
+- Applying media queries: https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries
+ 
+ GOD - I'M BORED TO DEATH OF THIS COURSE!!!!!
+ 
+---------------------------------------------------------------------------------------------------
+SECTION 011 Adding and Styling forms
+---------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
+Lecture 163 Adding the Unstyled Form
+---------------------------------------------------------------------------------------------------
+
+New directory: start-hosting
+New file     :   index.html
+
+---------------------------------------------------------------------------------------------------
+Lecture 164. Page Initialization
+---------------------------------------------------------------------------------------------------
+
+Lets add a stasrt-hosting.css file and add:
+
+	main {
+			padding-top: 2rem;
+	}
+
+	.signup-title {
+			text-align: center;
+			font-size: 1.8rem;
+			color: #ff5454;
+	}
+
+The html we will style looks like:
+
+   <form action="index.html" class="signup-form">   <-- the form itself       
+       <label for="title">Title</label>
+       <select id="title">                          <-- select box
+           <option value="mr">Mr.</option>
+           <option value="ms">Ms.</option>
+       </select>
+       
+       <label for="first-name">First name</label>   <-- label/input pairs ....
+       <input type="text" id="first-name">
+       
+       <label for="last-name">Last name</label>
+       <input type="text" id="last-name">
+       <label for="email">E-Mail</label>
+       <input type="email" id="email">
+       <label for="password">Password</label>
+       <input type="password" id="password">
+       <input type="checkbox" id="agree-terms">     <--- for checkboxes labels should come after         
+       <label for="agree-terms">Agree to
+           <a href="#">Terms &amp; Conditions</a>
+       </label>
+       <button type="submit" class="button">Sign Up</button>
+   </form>
+ 
+Then we add some basic styilin for the form elements:
+
+   /* Top put labels, input, select element on top of each other we make them block elements */
+   .signup-form label,
+   .signup-form input,
+   .signup-form select 
+   {
+       display: block;
+       margin-top: 1rem;
+       width: 100%;
+   }
+   
+---------------------------------------------------------------------------------------------------   
+Lecture 165 Understanding Advanced Attribute Selectors
+---------------------------------------------------------------------------------------------------
+
+See image in the section 11 dir...
+
+--------------------------------------------------------------------------------------------------- 
+Lecture 166 Working on the General Layout
+---------------------------------------------------------------------------------------------------
+ 
+To select and style the checkbnox we could use:
+ 
+	.signup-form input[type="checkbox"]
+	
+But we will use ( for some reason):
+
+	 .signup-form input[id="*terms"] {
+       display: inline-block;
+   }
+
+And too include the same style for the label after it:
+
+    .signup-form input[id*="terms"],
+    .signup-form input[id*="terms"] + label {
+        display: inline-block;
+        width: auto;
+    }
+    
+Let style the submit button:
+
+	.signup-form button[type="submit"] {
+			display: block;
+			margin-top: 1rem;
+	}
+	
+And get some padding inside the form:
+
+	.signup-form {
+			padding: 1rem;
+	}
+
+And all label a bold font:
+
+	.signup-form label {
+			font-weight: bold;
+	}
+
+	The input fields stetch to 1005 width - for mobile-first design, but they are too big for desktop sozes:
+	
+	@media (min-width: 40rem) {
+    .signup-form {
+        margin: auto;
+        width: 25rem;
+    }
+	}
+	
+--------------------------------------------------------------------------------------------------- 
+Lecture 167. Restyling the Form Elements
+---------------------------------------------------------------------------------------------------
+
+We add some styling for ourt input and select elements:
+
+	.signup-form input,
+	.signup-form select {
+			border: 1px solid #ccc;
+			padding: 0.2rem 0.5rem;
+			font: inherit;
+	}
+
+	.signup-form input:focus,
+	.signup-form select:focus {
+			outline: none;
+			background: #d8f3df;
+			border-color: #2ddf5c;
+	}
+
+--------------------------------------------------------------------------------------------------- 
+Lecture 168 Styling the Checkbox
+---------------------------------------------------------------------------------------------------
+	
+In the last lesson we styled even the checkbox - we will revert that now:
+
+	.signup-form input:not([type="checkbox"]),   <--- here
+	.signup-form select {
+			border: 1px solid #ccc;
+			padding: 0.2rem 0.5rem;
+			font: inherit;
+	}
+
+And for the checkbox add:
+
+	/* .signup-form input[type="checkbox"] */  Alternate way of adressing only the checkbox
+	
+	.signup-form input[id*="terms"],              <-- Gneral styling for checkbox and label
+	.signup-form input[id*="terms"] + label {
+			display: inline-block;                    <-- display checkbox and label next to each other
+			width: auto;
+			vertical-align: middle;                   <-- align middle with text
+	}
+
+	.signup-form input[type="checkbox"] {         <-- specific style for checkbox itself
+			border: 1px solid #ccc;
+			background: white;
+			width: 1rem;
+			height: 1rem;
+			-webkit-appearance: none;                 <-- Remove chrome default styling for checkbox
+			-moz-appearance: none;                    <-- For mozilla-family browsers
+			appearance: none;                         <-- For all else
+	}	
+	
+At this point, though, we have lost the visible clue that it is checked - there's no cross!!
+Let's fix that with pseudoclass "checked":
+
+	.signup-form input[type="checkbox"]:checked {
+			background: #2ddf5c;
+			border: #0e4f1f;
+	}
+
+--------------------------------------------------------------------------------------------------- 
+Lecture 169. Providing Validation Feedback
+---------------------------------------------------------------------------------------------------
+
+- We are mainly concerned with some simple user-side validation right now - using javascript.
+
+- We will add the css class "invalid" when the user does not enter the right kind of data:
+	<select id="title" class="invalid">
+	<input type="email" id="email" class="invalid">
+	<input type="checkbox" id="agree-terms" class="invalid">
+	
+- And style the element that gets that class applied to it.
+
+	.signup-form input.invalid,
+	.signup-form select.invalid {
+			border: 1px solid red;
+			background:rgb(250,172,172);
+	}
+
+We can also let the browser require that fields have the data that suits its type, adding
+required to enforce the user to fill it in:
+
+   <label for="first-name">First name</label>
+   <input type="text" id="first-name" required>
+   <label for="last-name">Last name</label>
+   <input type="text" id="last-name" required>
+   <label for="email">E-Mail</label>
+   <input type="email" id="email" required>
+   <label for="password">Password</label>
+   <input type="password" id="password" required>
+   <input type="checkbox" id="agree-terms" required>
+
+Make sure the browser you intend the code to work on are supported;
+
+	https://developer.mozilla.org/en-US/docs/Web/CSS/:invalid
+	
+--------------------------------------------------------------------------------------------------- 
+Lecture 170 Styling the Signup Button
+---------------------------------------------------------------------------------------------------	
+            
+We did some styling before:
+
+	.button {
+			background: #0e4f1f;
+			color: white;
+			font: inherit;                 <-- nb: we had to override browser defaults
+			border: 1.5px solid #0e4f1f;
+			padding: 0.5rem;
+			border-radius: 8px;
+			font-weight: bold;
+			cursor: pointer;
+	}
+	
+A button has a pseudo class "disabled"	which can be applied unitl the user has filled in the required
+and right kind of data in the form.
+
+We will just tmeporarily hardcode it in our html to see the difference and be able to style it.
+
+	<button type="submit" class="button" disabled>Sign Up</button>
+
+Styling:
+
+	.button[disabled]{
+			cursor: not-allowed;
+			border: #a1a1a1;
+			background: #ccc;
+			color: #a1a1a1;
+	}
+
+--------------------------------------------------------------------------------------------------- 
+Lecture 171 Fixing a Broken Link
+---------------------------------------------------------------------------------------------------
+
+Already fixed!
+
+--------------------------------------------------------------------------------------------------- 
+Lecture 172 Wrap Up
+---------------------------------------------------------------------------------------------------
+
+Styling inputs:
+
+- Input elements tend to have many browser default styles
+- Override using:
+
+	-webkit-appearance: none;                 <-- Remove chrome default styling for checkbox
+	-moz-appearance: none;                    <-- For mozilla-family browsers
+	appearance: none;                         <-- For all else
+			
+- Use pseudo-selectors (:focus) to provide good user feedback
+- outlines go outside of borders
+
+Validation feedback:
+
+- :valid and :invalid pseudo selectors
+- Manual validation feedback using a class addition (with js) (e.g. "invalid")
+
+MOre on the same:
+
+- Styling Form Elements: https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Styling_HTML_forms
+- Styling a <select>  Element: https://stackoverflow.com/questions/1895476/how-to-style-a-select-dropdown-with-css-only-without-javascript
+    
+---------------------------------------------------------------------------------------------------
+SECTION 012 Working with text and fonts
+---------------------------------------------------------------------------------------------------    
+
+
+
+
+
+	
