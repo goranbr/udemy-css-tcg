@@ -17,4 +17,4 @@ Notes from the Udemy course - CSS The Complete Guide
 - Browser Compliance: [https://caniuse.com/](https://caniuse.com/)
 - CSS Lint Site: [http://csslint.net](http://csslint.net/)
 - Mozilla Dev Network: [https://developer.mozilla.org/en-US/docs/Web/CSS](https://developer.mozilla.org/en-US/docs/Web/CSS)
-
+- MOzilla CSS Reference: [https://developer.mozilla.org/en-US/docs/Web/CSS/Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference)
