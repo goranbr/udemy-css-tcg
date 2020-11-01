@@ -4059,8 +4059,614 @@ MOre on the same:
 SECTION 012 Working with text and fonts
 ---------------------------------------------------------------------------------------------------    
 
+--------------------------------------------------------------------------------------------------- 
+Lecture 174 Module Introduction
+---------------------------------------------------------------------------------------------------
 
+- Generic & Font families
+- Importing & Using font families
+- Font properties
+- Font shorthand
 
+--------------------------------------------------------------------------------------------------- 
+Lecture 175 Comparing Generic Families & Font Families
+---------------------------------------------------------------------------------------------------
 
+Generic:                 Font Families - More Specific:
 
+	- serif          ->    Times New Roman, Georgia
+	- sans-serif     ->    Helvetica, Verdana
+	- cursive        ->    Brush Script. Mistral
+	- monospace      ->    Courier New, Lucida Bright
+	- fantasy
+
+--------------------------------------------------------------------------------------------------- 
+Lecture 176 Understanding the Browser Settings
+---------------------------------------------------------------------------------------------------
+
+What font will be displayed?
+
+- Default decided by the browser settings.
+
+- We can define a generic family in CSS and let the Browser setting decides actual font family.
+
+- We can define a font-family like Verdana:
+
+	- From user's computer - not so good for remote users
+	- From Web fonts       - a lot better 
+	- From server          - maybe from the web server itself
 	
+--------------------------------------------------------------------------------------------------- 
+Lecture 177 Using the Default Font Families
+---------------------------------------------------------------------------------------------------
+
+Let's look at the text describing the packages on the packages page.
+
+	.package__info {
+			padding: 1rem;
+			border: 1px solid #0e4f1f;
+			font-size: 1.2rem;
+			color: #0e4f1f;
+			background: white;
+	}
+
+We inherit some properties from the body element (of shared.css):
+
+	body {
+			font-family: 'Montserrat', sans-serif;
+    
+One of the two fonts we imported in the man index.hmtl file:
+
+	<link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+    
+   
+--------------------------------------------------------------------------------------------------- 
+Lecture 178 Understanding the "font-family" Syntax
+---------------------------------------------------------------------------------------------------
+
+Let's look at the font-family property:
+
+  font-family: 'Montserrat', sans-serif;
+  
+  - The quotation marks are not necessary in this case - there are no space in the font name.
+  - 'Montserrat' is the first choice and sans-serif the second
+  - So, start with a preferred font-family, and add a generic font in the end as a fallback.
+  - Of course, you can list several choices, not just two.
+  
+--------------------------------------------------------------------------------------------------- 
+Lecture 179 Working with Locally Saved Fonts
+---------------------------------------------------------------------------------------------------
+
+Some places you can find web fonts:
+- https://www.cssfontstack.com 
+- Here we find fonts there aare usually available on win/mac.
+
+- https://fonts.google.com/  
+- Here we find better-looking, but more unusual fonts, which we can import somehow to our project:
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+  
+See also:
+- https://www.w3schools.com/cssref/css_websafe_fonts.asp
+
+--------------------------------------------------------------------------------------------------- 
+Lecture 180 Working with Google Fonts
+---------------------------------------------------------------------------------------------------
+
+If we don't want to limit ourselves to fonts available on the users computer,
+a better option is the import web fonts that the web browser will get access to
+when surfing to our web page.
+
+WHERE TO FIND WEB FONTS:
+------------------------------------------------------
+
+- https://fonts.google.com/  
+- Here we find better-looking, but more unusual fonts, which we can import somehow to our project:
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+	
+- We can search for a subset of the generic types of fonts we are interested in.
+- We can try typing in text
+- See what the font look like in different sizes
+- See the whole alphabet
+- And so on...
+
+WE CAN ALSO CHOOSE DIFFERENT "FONT FACES".
+------------------------------------------------------
+
+	We actually have three different levels of specificity:
+	- Generic font family - like sans-serif
+	- The font-family     - like Roboto
+	- Font faces          - Like Light 300, Light 300 Italic, Regular 400, etc
+
+In a face name like "Light 300 italic", 
+
+	- "Light 300" is the weight
+	- "italic"    is the style
+
+HOW TO IMPORT THE FONT - STANDARD (NOT SO GOOD) WAY:
+------------------------------------------------------
+
+- Choose one of the font-family/font-face combos you like and press the box surroundin git.
+- Choose font face in the list by click "Select this style"
+- You will learn how to:
+
+	- Embed the font (standard way)- in our packages/index.hmtl: 
+	<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+	
+	- Specify it in CSS (in packages/packages.css): 
+	font-family: 'Roboto', sans-serif;
+	
+Theres one problem though!
+	- We have to add it to every web page where we want to use this font.
+
+BUT THERE'S ANOTHER BETTER EMBEDDING METHOD: @IMPORT
+------------------------------------------------------
+
+	- This way we can import it directly to our css file instead
+	- So we can get this style for all pages using our style sheet.
+	
+So at https://fonts.google.com/ after choosing your font, and:
+
+	- Click "Embed Font / @import":
+	<style>@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');</style>
+
+  - Put this in our shared.css file - at the top e.g.:
+  @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+  
+  - And this nice font should be available to all our web pages!
+  
+	- We can now remove this from packages/index.html:
+		<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+
+Let's do the same for:
+
+    <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+
+Resulting in these 3 lines in shared.css:
+
+	@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+	@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+	@import url('https://fonts.googleapis.com/css2?family=Montserrat:400,700&display=swap');
+
+Remove from main, customers, packages, start-hosting index.hmtl files:
+
+    <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+    
+--------------------------------------------------------------------------------------------------- 
+Lecture 181. Understanding Font Faces & "font-style"
+---------------------------------------------------------------------------------------------------
+
+What are these numbers in the name of hte font faces?
+- There are 100, 200, 300, 400 and so forth.
+
+Well they are different weights:
+
+	- 400 = Normal
+	- 700 = Bold
+	
+But if we try out this family and weight:
+
+	font-family: 'Roboto', sans-serif;
+	font-weight: 900;
+	
+Ity doesnt work, why?
+
+Well, we only imported the normal font face, Roboto - Regular 400.
+	@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+Soo, the browser can't show us this weight of 900.
+We have to import every font face  that we want to use:
+
+	@import url('https://fonts.googleapis.com/css2?family=Roboto:100i,400,900&display=swap');
+
+	NB: You will get this info from google font page. Just add the faces you need.
+	
+Now we can do:
+
+	font-family: 'Roboto', sans-serif;
+	font-weight: 100;     # From: The Roboto:100i font face
+	font-style: italic;   # From: The Roboto:100i font face
+	
+If we fail to import the cursive style: 100i the browser will still be able to
+render the text in italic style, but usually not as smoothly and good-looking.
+
+So we can use:
+	@import url('https://fonts.googleapis.com/css2?family=Roboto:100,400,900&display=swap');
+	
+Bu this is the syle we will use:
+
+.package__info {
+		---
+    font-size: 1.2rem;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900;
+    font-style: italic;
+    ---
+}
+	
+--------------------------------------------------------------------------------------------------- 
+Lecture 181 Understanding Font Faces & "font-style"
+---------------------------------------------------------------------------------------------------	
+
+If we wanted to create our own font, we can simulate that like this:
+
+- https://fonts.google.com/  
+- Choose Anonymous Pro - Regular 400 font
+- Instead ofusing the standard, or @import way we'll...
+- Click "Download the family" instead
+- We get a zip file with 4 ttf files:
+
+	AnonymousPro-BoldItalic.ttf
+	AnonymousPro-Bold.ttf
+	AnonymousPro-Italic.ttf
+	AnonymousPro-Regular.ttf
+
+	We'll use the AnonymousPro-Regular.ttf font, like so:
+	
+	packages/packages.css:
+	
+	@font-face {
+			font-family: "AnonymousPro";
+			src: url("AnonymousPro-Regular.ttf");  <-- I copied the ttf file to packages directory.
+	}
+
+	And then change the fonts for our packages info like so:
+	
+	.package__info {
+    padding: 1rem;
+    border: 1px solid #0e4f1f;
+    font-size: 1.2rem;
+    font-family: 'AnonymousPro', sans-serif;
+		...
+		
+This works, but right now we only have access to the normal font, and not e.g. the bold face font.
+So let's add that:
+
+	@font-face {
+			font-family: "AnonymousPro";
+			src: url("AnonymousPro-Bold.ttf");
+	}
+
+Now bold styling works:
+	font-weight: bold;
+	
+But not normal style:	
+	font-weight: normal;
+	
+Only the last of these two definition take effect:
+
+	@font-face {
+			font-family: "AnonymousPro";
+			src: url("AnonymousPro-Regular.ttf");
+	}
+
+	@font-face {
+			font-family: "AnonymousPro";
+			src: url("AnonymousPro-Bold.ttf");
+	}
+
+The bold font!
+
+However if we add the font-weight property to the font-face with that style...
+
+	@font-face {
+			font-family: "AnonymousPro";
+			src: url("AnonymousPro-Bold.ttf");
+			font-weight: 700;   <--- here
+	}
+	
+Then we can differentiate between the two and "font-weight: normal" works.
+That is, the bold font does not override the normal face with the same name.
+
+NB: SO ALWAYS ADD THIS PROPERTY SO THE BROWSER CAN TELL THEM APART!
+
+--------------------------------------------------------------------------------------------------- 
+Lecture 183 Understanding Font Formats
+---------------------------------------------------------------------------------------------------	
+
+Importing a fontface we add optional info about a fonts format, like truetype:
+
+	@font-face {
+			font-family: "AnonymousPro";
+			src: url("AnonymousPro-Regular.ttf")  format("truetype");   <-- here
+	}
+
+	@font-face {
+			font-family: "AnonymousPro";
+			src: url("AnonymousPro-Bold.ttf")  format("truetype");      <-- here
+			font-weight: 700;
+	}
+
+WHICH FILE FORMATS CAN I USE?
+
+	- Go to: https://caniuse.com/	
+	- Type in "ttf" in the search field at the Topics
+	- See which browsers support thsi font format
+
+Some font file formats:
+  - ttf    - true type font
+	- woff   - web open font format (a compressed format - smaller)
+	- woff2  -                      (better compression)
+  - And others...
+  
+To be as flexible as possible we can add sevceral formats to our css file:
+
+	@font-face {
+			font-family: "AnonymousPro";
+			src: url("AnonymousPro-Regular.woff2")  format("woff2"),
+			src: url("AnonymousPro-Regular.woff")  format("woff"),
+			src: url("AnonymousPro-Regular.ttf")  format("truetype");
+	}
+	
+--------------------------------------------------------------------------------------------------- 
+Lecture 184 Diving into Font Properties
+---------------------------------------------------------------------------------------------------		
+
+Let's deal with the styling of the customers page and the description of the customers.
+
+  .testimonial__text {
+    margin: 0.2rem;
+  }
+
+Some of the properties we can pay with are...
+
+	- font-size, font-weight, font-family, font-style
+	
+But also..
+
+	- font-variant  {inherit, initial, normal, small-caps, unset }
+	
+	- font-stretch  { condensed, expanded, extra-condensed, extra-expanded, initial,  narrower, 
+	                  normal, semi-condensed, semi-expanded, ultra-condensed, ultra-expanded }
+	                  
+	- But most of these has to be supported by the particular font you use.
+	- More about it here: https://developer.mozilla.org/en-US/docs/Web/CSS/font-stretch
+	
+	                  
+Like:
+
+ .testimonial__text {
+    margin: 0.2rem;
+    font-variant: small-caps;
+  }
+	
+--------------------------------------------------------------------------------------------------- 
+Lecture 185 Adding "letter-spacing"
+---------------------------------------------------------------------------------------------------  
+
+Another text property we use is one that spaces out letters of our text:
+
+	- letter-spacing    { LENGHT }
+	- letter-spacing: 5px;
+
+And...
+
+	- whitespace: { normal, nowrap, pre }
+	
+	- "normal"     Sequences of white space are collapsed. Newlines treated like other white space.
+	               Lines are broken as necessary to fill line boxes.
+	               
+	- "nowrap"     Like normal, but displays all the text on one line
+	
+	- "pre"        Sequences of white space are preserved. Lines broken at newline in source
+	               and at <br> elements.
+	               
+	- "pre-wrap"   Sequences of white space are preserved. Lines are broken at newline in source,
+	               at <br>, and as necessary to fill line boxes.
+	               
+	- "pre-line"   Sequences of white space are collapsed. Lines are broken at newline characters, 
+	               at <br>, and as necessary to fill line boxes.
+	
+	More about this, and tests at:
+	https://developer.mozilla.org/en-US/docs/Web/CSS/white-space
+	
+	For now, we'll use:
+	
+	  .testimonial__text {
+    margin: 0.2rem;
+    white-space: pre-line;  
+  }
+
+--------------------------------------------------------------------------------------------------- 
+Lecture 186 Changing the Line Height
+--------------------------------------------------------------------------------------------------- 
+
+We now remove the white-space property:
+
+  .testimonial__text {
+    margin: 0.2rem;
+  }
+  
+Let's add this styling:
+
+.package__info {
+	...
+	line-height: 1;  */ Our font size is 1,2rem = 19.2px ~ line-height = 19 px (rounded off fontsize)
+	line-height: 2;  */ Our font size is 1,2rem = 38.4px ~ line-height = 38 px (rounded off fontsize)
+	
+	However, if we specify...
+	line-height: normal;
+	
+	...line-height also depends partly on the Font-family.
+	"Montserrat"   = lineheight = 24
+	"AnonymousPro" = lineheight = 19
+	
+	With line-height, using simple numbers, kike 1, 2, 3 is the best.
+	Although it is possible to use px, or % also.
+	
+	But let's restore this to:
+	
+	.package__info {
+    padding: 1rem;
+    border: 1px solid #0e4f1f;
+    font-size: 1.2rem;
+    font-family: 'AnonymousPro', sans-serif;
+    font-weight: bold;
+    color: #0e4f1f;
+    background: white;
+	}
+
+
+
+--------------------------------------------------------------------------------------------------- 
+Lecture 187 Applying "text-decoration" & "text-shadow"
+--------------------------------------------------------------------------------------------------- 
+
+Let's try out text-decoration:
+
+	text-decoration: POSITION STYLE;
+
+	.package__info {
+		text-decoration: underline;
+		text-decoration: overline;
+		text-decoration: line-through;
+		
+		The line can further be: dotted, dashed, double or wavy
+		text-decoration: underline dotted;
+	
+		We will not use this styling in our project right now, though.
+		
+And of course to remove text-decoration, for like links we can use:	
+	text-decoration: none;
+	
+Let's try out text-shadow:
+
+	text-shadow: X-OFFSET Y-OFFSET BLUR COLOR;
+	
+	.package__info {
+			text-shadow: 5px 5px;            /* Look horrible - Wrong glasses? */
+			text-shadow: 5px 5px 2px gray;   /* Looks better  - A bit tired? */
+			text-shadow: 2px 2px 5px gray;   /* Looks good    - Reading glasses on! */
+			
+	But, we wil not really use this in our project, either.
+	
+--------------------------------------------------------------------------------------------------- 
+Lecture 188 Understanding the "font" Shorthand
+--------------------------------------------------------------------------------------------------- 
+
+This property is a shorthand for the following CSS properties:
+
+font:
+
+    font-style     /* Optional - Must precede font-size */
+    font-variant   /* Optional - Must precede font-size */
+    font-weight    /* Optional - Must precede font-size */
+    font-size      /* Mandatory */
+    line-height    /* Optional  - Must immediately follow font-size - preceded by "/"   */
+    font-stretch   /* Optional  - Must be single keyword value */
+    font-family    /* Mandatory - Must be the last value specified.*/
+
+WITH THE SHORTHAND FONT...
+
+- Some values are mandatory, like font-family, and font-size:
+	font: 1.2rem "AnonymousPro", sans-serif;
+	
+- And like seen above, the order of the properties are important.
+
+	E.g.: font-weight, while optional, must precede font-size:
+	font: 700 1.2rem "AnonymousPro", sans-serif;
+	
+	E.g.: font-variant, while optional, must also precede font-size:
+  font: small-caps 700 1.2rem "AnonymousPro", sans-serif;
+   
+The font shorthand can also be used to specify the default font for various elements on 
+your computer like menus, icons ond so on:
+
+SYSTEM FONT VALUES
+
+	caption       : System font used for captioned controls (e.g., buttons, drop-downs)
+	icon          : System font used to label icons.
+	menu          : System font used in menus (e.g., dropdown menus and menu lists).
+	message-box   : System font used in dialog boxes.
+	small-caption : System font used for labeling small controls.
+	status-bar    : System font used in window status bars.
+    
+So if we could try...
+
+	/*  font: 700 1.2rem "AnonymousPro", sans-serif; */
+   font: menu;    And get pretty small font used for menus...
+   
+We won't use that either, so revert to:
+		font: 700 1.2rem "AnonymousPro", sans-serif;
+    
+Read more: 
+- https://developer.mozilla.org/en-US/docs/Web/CSS/font
+
+
+--------------------------------------------------------------------------------------------------- 
+Lecture 189 Loading Performance & "font-display"
+--------------------------------------------------------------------------------------------------- 
+
+Let's look at the performance aspects of custom fonts. 
+In particular let's see how we can affect it with the font-display property.
+
+We have two different events during font loading:
+
+	- block period: 
+		The fonts are not loaded yet - but the space is reserved - and fallback font not yet shown
+
+	- Fallback font shown
+		
+	- swap period:
+	  The period where the browser loads the actual font specified in css
+
+So we can define...
+
+	font-display: swap;      - Extremely small block period and an infinite swap period.
+	                           So, a fallback font is displayed almost immediately.
+	                           The browser has an infinite time to try to load the custom font.
+	                           
+	font-display: block;     - Short block      period | infinite swap period.
+	font-display: fallback;  - Very short block period | short swap period.
+	font-display: optional;  - Very short block period | no swap period.
+	
+	font-display: auto;      - The font display strategy is defined by the user agent.
+	
+
+...when importing our fonts:
+
+	@font-face {
+			font-family: "AnonymousPro";
+			src: url("AnonymousPro-Regular.ttf")  format("truetype");
+			font-display: swap;
+	}
+	
+Or like in our shared.css we can add this swap value like so:
+
+	@import url('https://fonts.googleapis.com/css2?family=Roboto:100,400,900&display=swap');
+	@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+	@import url('https://fonts.googleapis.com/css2?family=Montserrat:400,700&display=swap');
+
+The default is usually:
+	font-display: block;
+	
+IE and Edge compatibility is not very good though.	
+	
+Read more:
+- https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display
+
+--------------------------------------------------------------------------------------------------- 
+Lecture 190 Wrap Up
+---------------------------------------------------------------------------------------------------
+
+Read the fucking notes...
+
+Dive Deeper into Selected Topics
+
+- Web Safe Fonts: https://www.cssfontstack.com/
+- Google Fonts: https://fonts.google.com/
+- The "line-height" property: https://developer.mozilla.org/en-US/docs/Web/CSS/line-height
+
+---------------------------------------------------------------------------------------------------
+SECTION 013 Adding Flexbox to our Project
+--------------------------------------------------------------------------------------------------- 
+
+Flexbox - the modern way to change the way our elements are displayed.
+
+
+
+
+
+
